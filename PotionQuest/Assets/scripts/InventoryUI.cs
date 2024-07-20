@@ -72,7 +72,8 @@ public class InventoryUI : MonoBehaviour
         Image itemImage = itemObject.GetComponent<Image>();
         itemImage.sprite = inventory.items[index].item.itemIcon;
         itemImage.SetNativeSize();
-        Canvas canvas = FindObjectOfType<Canvas>();
+        // Canvas canvas = FindObjectOfType<Canvas>();
+        Canvas canvas = FindFirstObjectByType<Canvas>();
         itemObject.transform.SetParent(canvas.transform, false);
         itemObject.transform.SetAsLastSibling();
         return itemObject;
