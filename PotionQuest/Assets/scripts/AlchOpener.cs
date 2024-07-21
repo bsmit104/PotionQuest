@@ -6,6 +6,7 @@ public class AlchOpener : MonoBehaviour
 {
     public Alch Alch;
     public AlchUI AlchUI;
+    // public AlchUI ResultUI;
     public PlayerController playerController;
     private bool isPlayerInRange = false;
 
@@ -27,12 +28,14 @@ public class AlchOpener : MonoBehaviour
     void OpenAlch()
     {
         AlchUI.gameObject.SetActive(true);
+        // ResultUI.gameObject.SetActive(true);
         playerController.UnlockCursor();
     }
 
     void CloseAlch()
     {
         AlchUI.gameObject.SetActive(false);
+        // ResultUI.gameObject.SetActive(false);
         playerController.LockCursor();
     }
 
@@ -54,5 +57,13 @@ public class AlchOpener : MonoBehaviour
                 CloseAlch();
             }
         }
+        // if (other.CompareTag("Player"))
+        // {
+        //     isPlayerInRange = false;
+        //     if (ResultUI.gameObject.activeSelf)
+        //     {
+        //         CloseAlch();
+        //     }
+        // }
     }
 }
