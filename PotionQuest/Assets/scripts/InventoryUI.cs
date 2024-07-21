@@ -69,13 +69,27 @@ public class InventoryUI : MonoBehaviour
     GameObject CreateDraggedItem(int index)
     {
         GameObject itemObject = Instantiate(draggedItemPrefab);
+        RectTransform rectTransform = itemObject.GetComponent<RectTransform>();
         Image itemImage = itemObject.GetComponent<Image>();
-        itemImage.sprite = inventory.items[index].item.itemIcon;
-        itemImage.SetNativeSize();
-        // Canvas canvas = FindObjectOfType<Canvas>();
-        Canvas canvas = FindFirstObjectByType<Canvas>();
-        itemObject.transform.SetParent(canvas.transform, false);
-        itemObject.transform.SetAsLastSibling();
+
+        if (itemImage != null)
+        {
+            itemImage.sprite = inventory.items[index].item.itemIcon;
+            itemImage.SetNativeSize();
+        }
+
+        Canvas canvas = FindObjectOfType<Canvas>();
+        if (canvas != null)
+        {
+            rectTransform.SetParent(canvas.transform, false);
+            rectTransform.anchoredPosition = Input.mousePosition; // Position it at the mouse cursor
+            rectTransform.sizeDelta = new Vector2(itemImage.sprite.rect.width, itemImage.sprite.rect.height); // Set size to sprite size
+        }
+        else
+        {
+            Debug.LogError("Canvas not found!");
+        }
+
         return itemObject;
     }
 
@@ -84,34 +98,84 @@ public class InventoryUI : MonoBehaviour
         if (draggedItem != null)
         {
             PointerEventData pointerData = (PointerEventData)data;
-            Vector3 newPosition = Camera.main.ScreenToWorldPoint(pointerData.position);
-            newPosition.z = 0;
-            draggedItem.transform.position = newPosition;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                (RectTransform)draggedItem.transform.parent,
+                pointerData.position,
+                null,
+                out Vector2 localPoint
+            );
+            draggedItem.GetComponent<RectTransform>().anchoredPosition = localPoint;
         }
     }
+
+    // public void EndDrag(BaseEventData data)
+    // {
+    //     if (draggedItem != null)
+    //     {
+    //         slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+    //         if (IsPointerOverUIObject(chestUI.slotPanel.gameObject))
+    //         {
+    //             if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+    //             {
+    //                 Item itemToMove = inventory.items[draggedItemIndex].item;
+    //                 if (chestUI.chest.AddItem(itemToMove, 1))
+    //                 {
+    //                     inventory.RemoveItem(itemToMove, 1);
+    //                 }
+    //             }
+    //         }
+
+    //         Destroy(draggedItem);
+    //         draggedItem = null;
+    //         draggedItemIndex = -1;
+
+    //         UpdateInventoryUI();
+    //         chestUI.UpdateChestUI();
+    //     }
+    // }
 
     public void EndDrag(BaseEventData data)
     {
         if (draggedItem != null)
         {
-            slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
+            // Re-enable raycasts for the original slot
+            if (draggedItemIndex >= 0 && draggedItemIndex < slots.Count)
+            {
+                slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
+            }
 
+            // Check if the dragged item is over the chest UI
             if (IsPointerOverUIObject(chestUI.slotPanel.gameObject))
             {
                 if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
                 {
                     Item itemToMove = inventory.items[draggedItemIndex].item;
+
+                    // Try to add the item to the chest
                     if (chestUI.chest.AddItem(itemToMove, 1))
                     {
+                        Debug.Log("Item added to chest: " + itemToMove.itemName);
+                        // Remove the item from inventory if added successfully
                         inventory.RemoveItem(itemToMove, 1);
+                    }
+                    else
+                    {
+                        Debug.Log("Failed to add item to chest: " + itemToMove.itemName);
                     }
                 }
             }
+            else
+            {
+                Debug.Log("Dragged item not over chestUI slotPanel");
+            }
 
+            // Clean up the dragged item object
             Destroy(draggedItem);
             draggedItem = null;
             draggedItemIndex = -1;
 
+            // Update the UI to reflect changes
             UpdateInventoryUI();
             chestUI.UpdateChestUI();
         }
