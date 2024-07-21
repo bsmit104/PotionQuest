@@ -1,17 +1,16 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class InventoryUI : MonoBehaviour
+public class AlchUI : MonoBehaviour
 {
-    public Inventory inventory;
-    public ChestUI chestUI;
-    public AlchUI AlchUI;
+    public Alch Alch;
     public Transform slotPanel;
     public GameObject draggedItemPrefab;
-    public Image trashCanImage;
+    public InventoryUI inventoryUI; // Reference to InventoryUI
 
     private List<GameObject> slots = new List<GameObject>();
     private GameObject draggedItem;
@@ -19,9 +18,15 @@ public class InventoryUI : MonoBehaviour
 
     void Start()
     {
-        inventory.OnInventoryChanged += UpdateInventoryUI;
+        if (Alch == null)
+        {
+            Debug.LogError("Alch is not assigned!");
+            return;
+        }
+
+        Alch.OnAlchChanged += UpdateAlchUI;
         InitializeSlots();
-        UpdateInventoryUI();
+        UpdateAlchUI();
     }
 
     void InitializeSlots()
@@ -60,7 +65,7 @@ public class InventoryUI : MonoBehaviour
     {
         PointerEventData pointerData = (PointerEventData)data;
         draggedItemIndex = GetSlotIndex(pointerData.pointerPress);
-        if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+        if (draggedItemIndex >= 0 && draggedItemIndex < Alch.AlchItems.Count)
         {
             draggedItem = CreateDraggedItem(draggedItemIndex);
             slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -70,18 +75,18 @@ public class InventoryUI : MonoBehaviour
     GameObject CreateDraggedItem(int index)
     {
         GameObject itemObject = Instantiate(draggedItemPrefab);
-        RectTransform rectTransform = itemObject.GetComponent<RectTransform>();
         Image itemImage = itemObject.GetComponent<Image>();
-
         if (itemImage != null)
         {
-            itemImage.sprite = inventory.items[index].item.itemIcon;
+            itemImage.sprite = Alch.AlchItems[index].item.itemIcon;
             itemImage.SetNativeSize();
         }
 
+        // Set dragged item to the Canvas
         Canvas canvas = FindObjectOfType<Canvas>();
         if (canvas != null)
         {
+            RectTransform rectTransform = itemObject.GetComponent<RectTransform>();
             rectTransform.SetParent(canvas.transform, false);
             rectTransform.anchoredPosition = Input.mousePosition; // Position it at the mouse cursor
             rectTransform.sizeDelta = new Vector2(itemImage.sprite.rect.width, itemImage.sprite.rect.height); // Set size to sprite size
@@ -109,101 +114,31 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    // public void EndDrag(BaseEventData data)
-    // {
-    //     if (draggedItem != null)
-    //     {
-    //         slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
-
-    //         if (IsPointerOverUIObject(chestUI.slotPanel.gameObject))
-    //         {
-    //             if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
-    //             {
-    //                 Item itemToMove = inventory.items[draggedItemIndex].item;
-    //                 if (chestUI.chest.AddItem(itemToMove, 1))
-    //                 {
-    //                     inventory.RemoveItem(itemToMove, 1);
-    //                 }
-    //             }
-    //         }
-
-    //         Destroy(draggedItem);
-    //         draggedItem = null;
-    //         draggedItemIndex = -1;
-
-    //         UpdateInventoryUI();
-    //         chestUI.UpdateChestUI();
-    //     }
-    // }
-
     public void EndDrag(BaseEventData data)
     {
         if (draggedItem != null)
         {
-            // Re-enable raycasts for the original slot
-            if (draggedItemIndex >= 0 && draggedItemIndex < slots.Count)
-            {
-                slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
-            }
+            slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-            // Check if the dragged item is over the chest UI
-            if (IsPointerOverUIObject(chestUI.slotPanel.gameObject))
+            // Check if dropped in InventoryUI
+            if (IsPointerOverUIObject(inventoryUI.slotPanel.gameObject))
             {
-                if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+                if (draggedItemIndex >= 0 && draggedItemIndex < Alch.AlchItems.Count)
                 {
-                    Item itemToMove = inventory.items[draggedItemIndex].item;
-
-                    // Try to add the item to the chest
-                    if (chestUI.chest.AddItem(itemToMove, 1))
+                    Item itemToMove = Alch.AlchItems[draggedItemIndex].item;
+                    if (inventoryUI.inventory.AddItem(itemToMove, 1)) // Assuming you want to add the item to the inventory
                     {
-                        Debug.Log("Item added to chest: " + itemToMove.itemName);
-                        // Remove the item from inventory if added successfully
-                        inventory.RemoveItem(itemToMove, 1);
-                    }
-                    else
-                    {
-                        Debug.Log("Failed to add item to chest: " + itemToMove.itemName);
+                        Alch.RemoveItem(itemToMove, 1); // Remove item from the Alch
                     }
                 }
             }
-            else
-            {
-                Debug.Log("Dragged item not over chestUI slotPanel");
-            }
 
-            if (IsPointerOverUIObject(AlchUI.slotPanel.gameObject))
-            {
-                if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
-                {
-                    Item itemToMove = inventory.items[draggedItemIndex].item;
-
-                    // Try to add the item to the chest
-                    if (AlchUI.Alch.AddItem(itemToMove, 1))
-                    {
-                        Debug.Log("Item added to Alch: " + itemToMove.itemName);
-                        // Remove the item from inventory if added successfully
-                        inventory.RemoveItem(itemToMove, 1);
-                    }
-                    else
-                    {
-                        Debug.Log("Failed to add item to Alch: " + itemToMove.itemName);
-                    }
-                }
-            }
-            else
-            {
-                Debug.Log("Dragged item not over AlchUI slotPanel");
-            }
-
-            // Clean up the dragged item object
             Destroy(draggedItem);
             draggedItem = null;
             draggedItemIndex = -1;
 
-            // Update the UI to reflect changes
-            UpdateInventoryUI();
-            chestUI.UpdateChestUI();
-            AlchUI.UpdateAlchUI();
+            UpdateAlchUI();
+            inventoryUI.UpdateInventoryUI(); // Update InventoryUI
         }
     }
 
@@ -220,7 +155,7 @@ public class InventoryUI : MonoBehaviour
         return results.Exists(result => result.gameObject == uiObject);
     }
 
-    public void UpdateInventoryUI()
+    public void UpdateAlchUI()
     {
         for (int i = 0; i < slots.Count; i++)
         {
@@ -230,16 +165,16 @@ public class InventoryUI : MonoBehaviour
             Image iconImage = iconTransform?.GetComponent<Image>();
             TMP_Text countText = countTransform?.GetComponent<TMP_Text>();
 
-            if (i < inventory.items.Count)
+            if (i < Alch.AlchItems.Count)
             {
                 if (iconImage != null)
                 {
-                    iconImage.sprite = inventory.items[i].item.itemIcon;
+                    iconImage.sprite = Alch.AlchItems[i].item.itemIcon;
                     iconImage.color = Color.white;
                 }
                 if (countText != null)
                 {
-                    countText.text = inventory.items[i].stackSize.ToString();
+                    countText.text = Alch.AlchItems[i].stackSize.ToString();
                 }
             }
             else
@@ -252,10 +187,9 @@ public class InventoryUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (inventory != null)
+        if (Alch != null)
         {
-            inventory.OnInventoryChanged -= UpdateInventoryUI;
+            Alch.OnAlchChanged -= UpdateAlchUI;
         }
     }
 }
-

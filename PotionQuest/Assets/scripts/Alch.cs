@@ -3,20 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chest : MonoBehaviour
+public class Alch : MonoBehaviour
 {
-    public List<Inventory.ItemStack> chestItems = new List<Inventory.ItemStack>();
+    public List<Inventory.ItemStack> AlchItems = new List<Inventory.ItemStack>();
 
-    public event Action OnChestChanged;
+    public event Action OnAlchChanged;
 
     public bool IsFull()
     {
-        return chestItems.Count >= 24; // Example limit
+        return AlchItems.Count >= 4; // Example limit
     }
 
     public bool AddItem(Item itemToAdd, int quantity = 1)
     {
-        foreach (var itemStack in chestItems)
+        foreach (var itemStack in AlchItems)
         {
             if (itemStack.item.itemName == itemToAdd.itemName && itemStack.stackSize < itemStack.item.maxStack)
             {
@@ -26,15 +26,15 @@ public class Chest : MonoBehaviour
                 quantity -= toAdd;
                 if (quantity == 0)
                 {
-                    OnChestChanged?.Invoke();
+                    OnAlchChanged?.Invoke();
                     return true;
                 }
             }
         }
         if (quantity > 0 && !IsFull())
         {
-            chestItems.Add(new Inventory.ItemStack { item = itemToAdd, stackSize = quantity });
-            OnChestChanged?.Invoke();
+            AlchItems.Add(new Inventory.ItemStack { item = itemToAdd, stackSize = quantity });
+            OnAlchChanged?.Invoke();
             return true;
         }
         return false;
@@ -42,15 +42,15 @@ public class Chest : MonoBehaviour
 
     public void RemoveItem(Item itemToRemove, int quantity = 1)
     {
-        for (int i = chestItems.Count - 1; i >= 0; i--)
+        for (int i = AlchItems.Count - 1; i >= 0; i--)
         {
-            Inventory.ItemStack stack = chestItems[i];
+            Inventory.ItemStack stack = AlchItems[i];
             if (stack.item.itemName == itemToRemove.itemName)
             {
                 if (quantity >= stack.stackSize)
                 {
                     quantity -= stack.stackSize;
-                    chestItems.RemoveAt(i);
+                    AlchItems.RemoveAt(i);
                 }
                 else
                 {
@@ -60,11 +60,11 @@ public class Chest : MonoBehaviour
 
                 if (quantity == 0)
                 {
-                    OnChestChanged?.Invoke();
+                    OnAlchChanged?.Invoke();
                     return;
                 }
             }
         }
-        OnChestChanged?.Invoke();
+        OnAlchChanged?.Invoke();
     }
 }
