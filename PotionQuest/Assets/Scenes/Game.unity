@@ -2450,15 +2450,15 @@ MonoBehaviour:
   resultSlot: {fileID: 932774804}
   craftableItems:
   - {fileID: 11400000, guid: 8160be9895feb9b43af6066b59bdb1ff, type: 2}
-  - {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
-  - {fileID: 11400000, guid: dbd84f24907187443bb0454c63547d6c, type: 2}
   - {fileID: 11400000, guid: ef8d222a25d96b64ea1a305fd8ed3270, type: 2}
-  - {fileID: 11400000, guid: 86f249f0da6658b40ba142f1489b8424, type: 2}
-  - {fileID: 11400000, guid: 7124848e311dcf6438e5b6e273abe4bc, type: 2}
   - {fileID: 11400000, guid: 619eef3749490704cb0d71424a58fcbe, type: 2}
-  - {fileID: 11400000, guid: c2a400da6badb934a8b625ad17493684, type: 2}
   - {fileID: 11400000, guid: 79b6f691108908544bff143ad2e31fdf, type: 2}
+  - {fileID: 11400000, guid: dbd84f24907187443bb0454c63547d6c, type: 2}
   - {fileID: 11400000, guid: 7c7af9ae699419447a0662d0889ae311, type: 2}
+  - {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+  - {fileID: 11400000, guid: 7124848e311dcf6438e5b6e273abe4bc, type: 2}
+  - {fileID: 11400000, guid: 86f249f0da6658b40ba142f1489b8424, type: 2}
+  - {fileID: 11400000, guid: c2a400da6badb934a8b625ad17493684, type: 2}
 --- !u!1001 &836292137
 PrefabInstance:
   m_ObjectHideFlags: 0
