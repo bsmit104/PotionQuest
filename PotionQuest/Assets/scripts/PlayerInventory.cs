@@ -38,7 +38,7 @@ public class PlayerInventory : Inventory
             {
                 UnityEngine.UI.Image iconImage = iconTransform?.GetComponent<UnityEngine.UI.Image>();
                 if (iconImage != null)
-                    iconImage.color = new Color(0.4431373f, 0.172549f, 0.172549f, 1);
+                    iconImage.color = new Color(0.5f, 0.5f, 0.5f, 1);
             }
             
             selectedSlot = index;
