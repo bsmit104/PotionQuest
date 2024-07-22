@@ -26,6 +26,7 @@ public class Inventory : MonoBehaviour
     
 
     public event Action OnInventoryChanged;
+    public event Action<int> OnInventoryItemRemoved;
     public event Action<Item> OnSelectedItemChanged;
 
 
@@ -91,7 +92,8 @@ public class Inventory : MonoBehaviour
             {
                 int toAdd = Mathf.Min(itemToAdd.maxStack, remaining);
                 remaining -= toAdd;
-                items[i] = new ItemStack(itemToAdd, toAdd);
+                items[i].item = itemToAdd;
+                items[i].stackSize = toAdd;
                 if (remaining == 0)
                 {
                     OnInventoryChanged?.Invoke();
@@ -132,7 +134,8 @@ public class Inventory : MonoBehaviour
             //there isn't a stack, so lets just add the stack here!
             int toAdd = Mathf.Min(itemToAdd.maxStack, remaining);
             remaining -= toAdd;
-            items[slotIndex] = new ItemStack(itemToAdd, toAdd);
+            items[slotIndex].item = itemToAdd;
+            items[slotIndex].stackSize = toAdd;
             if (remaining == 0)
             {
                 OnInventoryChanged?.Invoke();
@@ -146,6 +149,11 @@ public class Inventory : MonoBehaviour
         int amountRemoved = quantity - remaining;
         if (amountRemoved != 0) OnInventoryChanged?.Invoke();
         return amountRemoved;
+    }
+
+    public ItemStack GetItemStackAtSlot(int slotIndex)
+    {
+        return items[slotIndex];
     }
 
     /// <summary>
@@ -168,7 +176,8 @@ public class Inventory : MonoBehaviour
                 if (remainingToRemove >= stack.stackSize)//need to delete whole stack
                 {
                     remainingToRemove -= stack.stackSize;
-                    items[i] = new ItemStack();
+                    items[i].item = null;
+                    items[i].stackSize = 0;
                 }
                 else
                 {
@@ -188,5 +197,18 @@ public class Inventory : MonoBehaviour
         int amountRemoved = quantity - remainingToRemove;
         if (amountRemoved != 0) OnInventoryChanged?.Invoke();
         return amountRemoved;
+    }
+
+    public void RemoveItemFromSlot(int slot, int amount)
+    {
+        items[slot].stackSize -= amount;
+        if (items[slot].stackSize < 1)
+        {
+            items[slot].item = null;
+            items[slot].stackSize = 0;
+        }
+        OnInventoryChanged?.Invoke();
+        Debug.Log("invoked!");
+        OnInventoryItemRemoved?.Invoke(slot);
     }
 }

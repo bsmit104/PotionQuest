@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class PlayerInventory : Inventory
 {
-    int selectedSlot = 0;
+    public int selectedSlot = 0;
+    public InventoryUI playerInventoryUI;
+
+    private void Start() {
+        //SelectItem(selectedSlot);
+    }
 
     void Update()
     {
@@ -26,7 +32,25 @@ public class PlayerInventory : Inventory
     {
         if (index >= 0 && index < items.Length)
         {
+            //set previous selection to normal color
+            Transform iconTransform = playerInventoryUI.slots[selectedSlot].transform.Find("Icon");
+            if (iconTransform != null)
+            {
+                UnityEngine.UI.Image iconImage = iconTransform?.GetComponent<UnityEngine.UI.Image>();
+                if (iconImage != null)
+                    iconImage.color = new Color(0.4431373f, 0.172549f, 0.172549f, 1);
+            }
+            
             selectedSlot = index;
+
+            iconTransform = playerInventoryUI.slots[selectedSlot].transform.Find("Icon");
+            if (iconTransform != null)
+            {
+                UnityEngine.UI.Image iconImage = iconTransform?.GetComponent<UnityEngine.UI.Image>();
+                if (iconImage != null)
+                    iconImage.color = Color.white;
+            }
+
             //selectedItemStack = items[index];
             //OnSelectedItemChanged?.Invoke(selectedItemStack.item);
             //Debug.Log("Selected item: " + selectedItemStack.item.itemName);

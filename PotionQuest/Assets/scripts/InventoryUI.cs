@@ -13,7 +13,7 @@ public class InventoryUI : MonoBehaviour
 
     public List<InventoryUI> TransferableTo = new List<InventoryUI>();
 
-    protected List<GameObject> slots = new List<GameObject>();
+    public List<GameObject> slots = new List<GameObject>();
     protected GameObject draggedItem;
     protected int draggedItemIndex = -1;
 
@@ -186,7 +186,9 @@ public class InventoryUI : MonoBehaviour
                             {
                                 Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
-                                inventory.items[draggedItemIndex] = new ItemStack();
+                                inventory.items[draggedItemIndex].item = null;
+                                inventory.items[draggedItemIndex].stackSize = 0;
+                                
                             }
                             else
                             {
@@ -201,7 +203,8 @@ public class InventoryUI : MonoBehaviour
                             {
                                 Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
-                                inventory.items[draggedItemIndex] = new ItemStack();
+                                inventory.items[draggedItemIndex].item = null;
+                                inventory.items[draggedItemIndex].stackSize = 0;
                             }
                             else
                             {
@@ -258,7 +261,7 @@ public class InventoryUI : MonoBehaviour
                 if (iconImage != null)
                 {
                     iconImage.sprite = inventory.items[i].item.itemIcon;
-                    iconImage.color = Color.white;
+                    new Color(0.4431373f, 0.172549f, 0.172549f, 1);
                 }
                 if (countText != null)
                 {
@@ -268,7 +271,7 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 if (iconImage != null) iconImage.sprite = null;
-                if (iconImage != null) iconImage.color = new Color(1,1,1,0);
+                if (iconImage != null) iconImage.color = new Color(0.4431373f, 0.172549f, 0.172549f, 1);
                 if (countText != null) countText.text = "";
             }
         }

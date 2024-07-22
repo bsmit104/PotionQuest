@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -25,8 +27,13 @@ public class PlayerController : MonoBehaviour
 
     CharacterController characterController;
 
+    public PlayerInventory inventory;
+
+    public TextMeshProUGUI textMeshPro;
+
     void Start()
     {
+        
         characterController = GetComponent<CharacterController>();
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
@@ -84,6 +91,53 @@ public class PlayerController : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+
+        //interact with things in front of us
+        RaycastHit[] results;
+        results = Physics.RaycastAll(playerCamera.transform.position, playerCamera.transform.forward, 5);
+        textMeshPro.text = "";
+        foreach (RaycastHit hit in results)
+        {
+
+            if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
+            {
+                //show what text needs to be shown to help with interaction
+                
+                
+                if (display.inventory.items[display.slotIndex].item == null)
+                {
+                    //don't be able to add items to it if you aren't supposed to
+                    if (!display.BlockPlacement)
+                    {
+                        //see if we just pressed E, and if we did then place 
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            int amountAdded = display.inventory.AddItemToSlot(display.slotIndex, inventory.items[inventory.selectedSlot].item, inventory.items[inventory.selectedSlot].stackSize);
+                            inventory.RemoveItemFromSlot(inventory.selectedSlot, amountAdded);
+                        }
+                        if (inventory.items[inventory.selectedSlot].item != null)
+                            textMeshPro.text = "Place Item";   
+                    }
+                }else
+                {
+                    textMeshPro.text = "Pick Up Item";   
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        //there is already an item there, so try to take the item
+                        ItemStack stack = display.inventory.items[display.slotIndex];
+                        int amountAdded = inventory.AddItemToSlot(inventory.selectedSlot, stack.item, stack.stackSize);
+                        display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);
+                        if (display.inventory.items[display.slotIndex].stackSize < 1)
+                        {
+                            display.DisplayItem(null);
+                        }
+                    }
+                    
+                }
+                
+                break;
+            }
         }
     }
 }

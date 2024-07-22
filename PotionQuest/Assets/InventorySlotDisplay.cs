@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class InventorySlotDisplay : MonoBehaviour
 {
+
     GameObject displayObject;
     public 
     GameObject DebugObject;
     
-    private int slotIndex = -1;
-    Inventory inv;
+    public int slotIndex = -1;
+    public Inventory inventory;
 
-    public void Initialize(int index, Inventory inventory)
+    public bool BlockPlacement = false;
+
+    public void Initialize(int index, Inventory inv)
     {
-        inv = inventory;
+        inventory = inv;
         slotIndex = index;
     }
 
@@ -21,6 +24,8 @@ public class InventorySlotDisplay : MonoBehaviour
     {
         //remove previous object
         RemoveItem();
+
+        if (item == null) return;
 
         //instantiate the item's prefab and disable pickup
         if (item.itemObject != null)

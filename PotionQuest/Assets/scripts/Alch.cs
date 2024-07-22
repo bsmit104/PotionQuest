@@ -2,11 +2,31 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Ingredient
+{
+    public Item item;
+    public int amount;
+}
+
+[System.Serializable]
+public class Recipe
+{
+    public Item result;
+
+    public List<Ingredient> ingredients;
+}
+
 public class Alch : MonoBehaviour
 {
     public InventorySlotDisplay[] displaySlots = new InventorySlotDisplay[4];
 
     public Inventory inventory;
+
+    [SerializeField]
+    public List<Recipe> Recipes; // List of all possible craftable items
+
+    Item lastCraftedItem = null;
 
     private void Start() {
         int index = 0;
@@ -16,7 +36,60 @@ public class Alch : MonoBehaviour
             index++;
         } 
 
-        inventory.OnInventoryChanged += UpdateAlchDisplay;
+        inventory.OnInventoryChanged += UpdateAlchemy;
+
+        inventory.OnInventoryItemRemoved += TakeResult;
+        
+    }
+
+
+    private void TakeResult(int index)
+    {
+        Debug.Log("item was removed");
+        //see if the item taken was in the result slot
+        if (index != 4) return;
+
+        Debug.Log("it was the result slot!");
+        //result was taken, so lets remove the ingredients
+        var Recipe = Recipes.Find(recipe => recipe.result == lastCraftedItem);
+
+        if (Recipe.result != null)
+        {
+            foreach(var ingredient in Recipe.ingredients)
+            {
+                inventory.RemoveItem(ingredient.item, ingredient.amount);
+            }
+            
+        }
+        
+        UpdateAlchDisplay();
+
+    }
+
+    private void UpdateAlchemy()
+    {
+        //Here is where we will put the crafting and recipe stuff!
+        //the first 4 slots of the inventory are the ingredients, and the fifth will be the output.
+
+        Item craftedItem = GetCraftedItem();
+        if (craftedItem != lastCraftedItem)
+        {
+            //crafted item has changed, and we need to set the fifth item to the result.
+            if (craftedItem != null)
+            {
+                inventory.items[4].item = craftedItem;
+                inventory.items[4].stackSize = 1;
+            }
+            else
+            {
+                inventory.items[4].item = craftedItem;
+                inventory.items[4].stackSize = 0;
+            }
+
+            lastCraftedItem = craftedItem;
+        }
+        
+
 
         UpdateAlchDisplay();
     }
@@ -32,8 +105,49 @@ public class Alch : MonoBehaviour
         }
     }
 
-    
+    private Item GetCraftedItem()
+    {
+        //loop over ingredient slots and add to a dictionary
+        Dictionary<string, int> ingredientCounts = new Dictionary<string, int>();
+        for (int i = 0; i < inventory.items.Length - 2; i++)
+        {
+            ItemStack stack = inventory.items[i];
 
+            if (stack.item == null) continue;
+            if (ingredientCounts.ContainsKey(stack.item.itemName))
+            {
+                ingredientCounts[stack.item.itemName]++;
+            }
+            else
+            {
+                ingredientCounts[stack.item.itemName] = 1;
+            }   
+        }
+
+        foreach (var recipe in Recipes)
+        {
+            bool missingIngredient = false;
+            foreach(Ingredient ingredient in recipe.ingredients)
+            {
+                if (ingredientCounts.ContainsKey(ingredient.item.itemName) && ingredientCounts[ingredient.item.itemName] == ingredient.amount)
+                {
+                    continue;
+                }
+                missingIngredient = true;
+                break;
+            }
+
+            if (missingIngredient) continue;
+
+            //since we have all the ingredients, lets return the result!
+            return recipe.result;
+            
+        }
+
+        return null;
+    }
+
+    
 }
 
 
