@@ -98,10 +98,7 @@ public class Alch : MonoBehaviour
     {
         for (int i = 0; i < displaySlots.Length; i++)
         {
-            if (inventory.items[i].item != null)
-            {
-                displaySlots[i].DisplayItem(inventory.items[i].item);
-            }
+            displaySlots[i].DisplayItem(inventory.items[i].item);
         }
     }
 
