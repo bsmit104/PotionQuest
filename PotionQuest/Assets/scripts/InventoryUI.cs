@@ -7,24 +7,26 @@ using TMPro;
 public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
-    public ChestUI chestUI;
-    public AlchUI AlchUI;
     public Transform slotPanel;
     public GameObject draggedItemPrefab;
     public Image trashCanImage;
 
-    private List<GameObject> slots = new List<GameObject>();
-    private GameObject draggedItem;
-    private int draggedItemIndex = -1;
+    public List<InventoryUI> TransferableTo = new List<InventoryUI>();
 
-    void Start()
+    protected List<GameObject> slots = new List<GameObject>();
+    protected GameObject draggedItem;
+    protected int draggedItemIndex = -1;
+
+    public void Start()
     {
         inventory.OnInventoryChanged += UpdateInventoryUI;
         InitializeSlots();
         UpdateInventoryUI();
+
+        TransferableTo.Add (this);
     }
 
-    void InitializeSlots()
+    protected void InitializeSlots()
     {
         for (int i = 0; i < slotPanel.childCount; i++)
         {
@@ -44,7 +46,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, UnityEngine.Events.UnityAction<BaseEventData> action)
+    protected void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, UnityEngine.Events.UnityAction<BaseEventData> action)
     {
         EventTrigger.Entry entry = new EventTrigger.Entry { eventID = eventType };
         entry.callback.AddListener(action);
@@ -60,14 +62,21 @@ public class InventoryUI : MonoBehaviour
     {
         PointerEventData pointerData = (PointerEventData)data;
         draggedItemIndex = GetSlotIndex(pointerData.pointerPress);
-        if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+        if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Length)
         {
-            draggedItem = CreateDraggedItem(draggedItemIndex);
-            slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = false;
+            if ( inventory.items[draggedItemIndex].item != null)
+            {
+                draggedItem = CreateDraggedItem(draggedItemIndex);
+                slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = false;
+            }else
+            {
+                //trying to drag an empty item, so do nothing! revert index as well
+                draggedItemIndex = -1;
+            }
         }
     }
 
-    GameObject CreateDraggedItem(int index)
+    protected GameObject CreateDraggedItem(int index)
     {
         GameObject itemObject = Instantiate(draggedItemPrefab);
         RectTransform rectTransform = itemObject.GetComponent<RectTransform>();
@@ -136,7 +145,7 @@ public class InventoryUI : MonoBehaviour
     //     }
     // }
 
-    public void EndDrag(BaseEventData data)
+    virtual public void EndDrag(BaseEventData data)
     {
         if (draggedItem != null)
         {
@@ -146,53 +155,69 @@ public class InventoryUI : MonoBehaviour
                 slots[draggedItemIndex].GetComponent<CanvasGroup>().blocksRaycasts = true;
             }
 
-            // Check if the dragged item is over the chest UI
-            if (IsPointerOverUIObject(chestUI.slotPanel.gameObject))
+            foreach (InventoryUI otherUI in TransferableTo)
             {
-                if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+                // Check if the dragged item is over the chest UI
+                if (IsPointerOverUIObject(otherUI.slotPanel.gameObject))
                 {
-                    Item itemToMove = inventory.items[draggedItemIndex].item;
-
-                    // Try to add the item to the chest
-                    if (chestUI.chest.AddItem(itemToMove, 1))
+                    //make sure we are dragging something valid?
+                    if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Length)
                     {
-                        Debug.Log("Item added to chest: " + itemToMove.itemName);
-                        // Remove the item from inventory if added successfully
-                        inventory.RemoveItem(itemToMove, 1);
+                        Item itemToMove = inventory.items[draggedItemIndex].item;
+                        int amount = inventory.items[draggedItemIndex].stackSize;
+                        // Try to add the item to the chest
+                        //check if we are over a specific slot, and if we are put it in at that slot
+                        int otherInvIndex = -1;
+                        for (int i = 0; i < otherUI.slots.Count; i++)
+                        {
+                            GameObject slot = otherUI.slots[i];
+                            if (IsPointerOverUIObject(slot))
+                            {
+                                otherInvIndex = i;
+                                break;
+                            }
+                        }
+                        Debug.Log("Trying to place item into slot: " + otherInvIndex);
+                        if (otherInvIndex >= 0 && otherInvIndex < otherUI.inventory.items.Length)
+                        {
+                            //we found a slot to put into, so lets put it in
+                            int amountAdded = otherUI.inventory.AddItemToSlot(otherInvIndex, itemToMove, amount);
+                            if (amountAdded == amount)
+                            {
+                                Debug.Log("All Items added to chest");
+                                // Remove the item from inventory if added successfully
+                                inventory.items[draggedItemIndex] = new ItemStack();
+                            }
+                            else
+                            {
+                                Debug.Log("only added " + amountAdded + " items");
+                                inventory.items[draggedItemIndex].stackSize -= amountAdded;
+                            }
+                        }else
+                        {
+                            //there was no slot, so we just add it to the inventory
+                            int amountAdded = otherUI.inventory.AddItem(itemToMove, amount);
+                            if (amountAdded == amount)
+                            {
+                                Debug.Log("All Items added to chest");
+                                // Remove the item from inventory if added successfully
+                                inventory.items[draggedItemIndex] = new ItemStack();
+                            }
+                            else
+                            {
+                                Debug.Log("only added " + amountAdded + " items");
+                                inventory.items[draggedItemIndex].stackSize -= amountAdded;
+                            }
+                        }
+                        
                     }
-                    else
-                    {
-                        Debug.Log("Failed to add item to chest: " + itemToMove.itemName);
-                    }
+                    otherUI.UpdateInventoryUI();
+                    break; // only add to one inventory UI. 
                 }
-            }
-            else
-            {
-                Debug.Log("Dragged item not over chestUI slotPanel");
-            }
-
-            if (IsPointerOverUIObject(AlchUI.slotPanel.gameObject))
-            {
-                if (draggedItemIndex >= 0 && draggedItemIndex < inventory.items.Count)
+                else
                 {
-                    Item itemToMove = inventory.items[draggedItemIndex].item;
-
-                    // Try to add the item to the chest
-                    if (AlchUI.Alch.AddItem(itemToMove, 1))
-                    {
-                        Debug.Log("Item added to Alch: " + itemToMove.itemName);
-                        // Remove the item from inventory if added successfully
-                        inventory.RemoveItem(itemToMove, 1);
-                    }
-                    else
-                    {
-                        Debug.Log("Failed to add item to Alch: " + itemToMove.itemName);
-                    }
+                    Debug.Log("Dragged item not over chestUI slotPanel");
                 }
-            }
-            else
-            {
-                Debug.Log("Dragged item not over AlchUI slotPanel");
             }
 
             // Clean up the dragged item object
@@ -202,17 +227,15 @@ public class InventoryUI : MonoBehaviour
 
             // Update the UI to reflect changes
             UpdateInventoryUI();
-            chestUI.UpdateChestUI();
-            AlchUI.UpdateAlchUI();
         }
     }
 
-    int GetSlotIndex(GameObject slot)
+    public int GetSlotIndex(GameObject slot)
     {
         return slots.IndexOf(slot);
     }
 
-    bool IsPointerOverUIObject(GameObject uiObject)
+    public bool IsPointerOverUIObject(GameObject uiObject)
     {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
         List<RaycastResult> results = new List<RaycastResult>();
@@ -230,7 +253,7 @@ public class InventoryUI : MonoBehaviour
             Image iconImage = iconTransform?.GetComponent<Image>();
             TMP_Text countText = countTransform?.GetComponent<TMP_Text>();
 
-            if (i < inventory.items.Count)
+            if (i < inventory.items.Length  &&  inventory.items[i].item != null)
             {
                 if (iconImage != null)
                 {
@@ -245,6 +268,7 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 if (iconImage != null) iconImage.sprite = null;
+                if (iconImage != null) iconImage.color = new Color(1,1,1,0);
                 if (countText != null) countText.text = "";
             }
         }

@@ -15,3 +15,7 @@ MonoBehaviour:
   itemName: Gold Coin
   itemIcon: {fileID: 21300000, guid: c075ef4afc76f1b4eba6c8376337ebb4, type: 3}
   maxStack: 1
+  itemObject: {fileID: 8588643695205336062, guid: 5e4871f3a74eb904a939507d69608855, type: 3}
+  offsetPosition: {x: 0, y: 0.1, z: 0}
+  offsetRotation: {x: -90, y: 0, z: 0}
+  offsetScale: 0.5

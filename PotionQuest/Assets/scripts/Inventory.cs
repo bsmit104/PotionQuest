@@ -2,53 +2,55 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class ItemStack
+{
+    public ItemStack()
+    {
+
+    }
+    public ItemStack(Item _item, int _count)
+    {
+        item = _item;
+        stackSize = _count;
+    }
+    public Item item;
+    public int stackSize;
+}
+
 public class Inventory : MonoBehaviour
 {
     [SerializeField]
-    public List<ItemStack> items = new List<ItemStack>();
+    public ItemStack[] items = new ItemStack[4];
 
-    [System.Serializable]
-    public class ItemStack
-    {
-        public Item item;
-        public int stackSize;
-    }
+    
 
     public event Action OnInventoryChanged;
     public event Action<Item> OnSelectedItemChanged;
 
-    private Item selectedItem;
+
 
     void Start()
     {
     }
 
-    void Update()
-    {
-        HandleNumberKeyInput();
-    }
-
-    private void HandleNumberKeyInput()
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-            {
-                SelectItem(i);
-            }
-        }
-    }
-
     public bool IsFull()
     {
-        return items.Count >= 9; 
+        foreach (var itemstack in items)
+        {
+            if (itemstack.item == null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Item GetItemByName(string itemName)
     {
         foreach (var itemStack in items)
         {
-            if (itemStack.item.itemName == itemName)
+            if (itemStack.item != null && itemStack.item.itemName == itemName)
             {
                 return itemStack.item;
             }
@@ -56,298 +58,135 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
-    public bool AddItem(Item itemToAdd, int quantity = 1)
+    //returns how many were actually added to the inventory.
+    public int AddItem(Item itemToAdd, int quantity = 1)
     {
-        foreach (var itemStack in items)
+        if (quantity <= 0) return 0;
+        int remaining = quantity;
+
+        //first try adding to existing stacks
+        for (int i = 0; i < items.Length; i++)
         {
+            ItemStack itemStack = items[i];
+            //first adding to existing stacks
+            
+            if (itemStack.item != null && itemStack.item.itemName == itemToAdd.itemName && itemStack.stackSize < itemStack.item.maxStack)
+            {
+                int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
+                int toAdd = Mathf.Min(quantity, availableSpace);
+                itemStack.stackSize += toAdd;
+                remaining -= toAdd;
+                if (remaining == 0)
+                {
+                    OnInventoryChanged?.Invoke();
+                    return quantity;
+                }
+            }
+        }
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            ItemStack itemStack = items[i];
+            if (itemStack.item == null)
+            {
+                int toAdd = Mathf.Min(itemToAdd.maxStack, remaining);
+                remaining -= toAdd;
+                items[i] = new ItemStack(itemToAdd, toAdd);
+                if (remaining == 0)
+                {
+                    OnInventoryChanged?.Invoke();
+                    return quantity;
+                }
+            }
+        }
+
+        int amountRemoved = quantity - remaining;
+        if (amountRemoved != 0) OnInventoryChanged?.Invoke();
+        return amountRemoved;
+    }
+
+    public int AddItemToSlot(int slotIndex, Item itemToAdd, int quantity = 1)
+    {
+        if (slotIndex < 0 || slotIndex > items.Length) return 0;
+        if (quantity <= 0) return 0;
+        int remaining = quantity;
+
+        //try adding to existing stack in slot
+        ItemStack itemStack = items[slotIndex];
+        if (itemStack.item != null)
+        {
+            //there is already a stack, so lets try to add to it
             if (itemStack.item.itemName == itemToAdd.itemName && itemStack.stackSize < itemStack.item.maxStack)
             {
                 int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
                 int toAdd = Mathf.Min(quantity, availableSpace);
                 itemStack.stackSize += toAdd;
-                quantity -= toAdd;
-                if (quantity == 0)
-                {
-                    OnInventoryChanged?.Invoke();
-                    return true;
-                }
+                remaining -= toAdd;
+            }else
+            {
+                //there was a stack there, but not of the same type!
+                return 0;
             }
-        }
-        if (quantity > 0 && !IsFull())
+        }else
         {
-            items.Add(new ItemStack { item = itemToAdd, stackSize = quantity });
-            OnInventoryChanged?.Invoke();
-            return true;
+            //there isn't a stack, so lets just add the stack here!
+            int toAdd = Mathf.Min(itemToAdd.maxStack, remaining);
+            remaining -= toAdd;
+            items[slotIndex] = new ItemStack(itemToAdd, toAdd);
+            if (remaining == 0)
+            {
+                OnInventoryChanged?.Invoke();
+                return quantity;
+            }
+            
         }
-        return false;
+
+        
+
+        int amountRemoved = quantity - remaining;
+        if (amountRemoved != 0) OnInventoryChanged?.Invoke();
+        return amountRemoved;
     }
 
-    public void RemoveItem(Item itemToRemove, int quantity = 1)
+    /// <summary>
+    /// returns the amount removed from the inventory
+    /// </summary>
+    public int RemoveItem(Item itemToRemove, int quantity = 1)
     {
         Debug.Log($"Trying to remove {quantity} of {itemToRemove.itemName}");
-        for (int i = items.Count - 1; i >= 0; i--)
+
+        int remainingToRemove = quantity;
+        for (int i = items.Length - 1; i >= 0; i--)
         {
             ItemStack stack = items[i];
+
+            //ignore empty stacks
+            if (stack.item == null) continue;
+
             if (stack.item.itemName == itemToRemove.itemName)
             {
-                if (quantity >= stack.stackSize)
+                if (remainingToRemove >= stack.stackSize)//need to delete whole stack
                 {
-                    quantity -= stack.stackSize;
-                    Debug.Log($"Removing stack {stack.stackSize} of {stack.item.itemName}");
-                    items.RemoveAt(i);
+                    remainingToRemove -= stack.stackSize;
+                    items[i] = new ItemStack();
                 }
                 else
                 {
-                    stack.stackSize -= quantity;
+                    stack.stackSize -= remainingToRemove;
                     Debug.Log($"Reducing stack by {quantity}, new count {stack.stackSize}");
-                    quantity = 0;
+                    remainingToRemove = 0;
                 }
 
-                if (quantity == 0)
+                if (remainingToRemove == 0)
                 {
                     OnInventoryChanged?.Invoke();
-                    // Deselect the item if it's the selected item being removed
-                    if (selectedItem == stack.item)
-                    {
-                        selectedItem = null;
-                        OnSelectedItemChanged?.Invoke(null);
-                    }
-                    return;
+                    return quantity;
                 }
             }
         }
-        OnInventoryChanged?.Invoke();
-    }
 
-    public void SelectItem(int index)
-    {
-        if (index >= 0 && index < items.Count)
-        {
-            selectedItem = items[index].item;
-            OnSelectedItemChanged?.Invoke(selectedItem);
-            Debug.Log("Selected item: " + selectedItem.itemName);
-        }
-    }
-
-    public Item GetSelectedItem()
-    {
-        return selectedItem;
+        int amountRemoved = quantity - remainingToRemove;
+        if (amountRemoved != 0) OnInventoryChanged?.Invoke();
+        return amountRemoved;
     }
 }
-
-// using System;
-// using System.Collections.Generic;
-// using UnityEngine;
-
-// public class Inventory : MonoBehaviour
-// {
-//     [SerializeField]
-//     public List<ItemStack> items = new List<ItemStack>();
-
-//     [System.Serializable]
-//     public class ItemStack
-//     {
-//         public Item item;
-//         public int stackSize;
-//     }
-
-//     public event Action OnInventoryChanged;
-//     public event Action<Item> OnSelectedItemChanged;
-
-//     private Item selectedItem;
-
-//     void Start()
-//     {
-//     }
-
-//     void Update()
-//     {
-//         HandleNumberKeyInput();
-//     }
-
-//     private void HandleNumberKeyInput()
-//     {
-//         for (int i = 0; i < 9; i++)
-//         {
-//             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
-//             {
-//                 SelectItem(i);
-//             }
-//         }
-//     }
-
-//     public bool IsFull()
-//     {
-//         return items.Count >= 9; 
-//     }
-
-//     /////just added this/////
-//     public Item GetItemByName(string itemName)
-//     {
-//         return items.Find(item => item.itemName == itemName);
-//     }
-//     /////////////////////////
-
-//     public bool AddItem(Item itemToAdd, int quantity = 1)
-//     {
-//         foreach (var itemStack in items)
-//         {
-//             if (itemStack.item.itemName == itemToAdd.itemName && itemStack.stackSize < itemStack.item.maxStack)
-//             {
-//                 int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
-//                 int toAdd = Mathf.Min(quantity, availableSpace);
-//                 itemStack.stackSize += toAdd;
-//                 quantity -= toAdd;
-//                 if (quantity == 0)
-//                 {
-//                     OnInventoryChanged?.Invoke();
-//                     return true;
-//                 }
-//             }
-//         }
-//         if (quantity > 0 && !IsFull())
-//         {
-//             items.Add(new ItemStack { item = itemToAdd, stackSize = quantity });
-//             OnInventoryChanged?.Invoke();
-//             return true;
-//         }
-//         return false;
-//     }
-
-//     public void RemoveItem(Item itemToRemove, int quantity = 1)
-//     {
-//         Debug.Log($"Trying to remove {quantity} of {itemToRemove.itemName}");
-//         for (int i = items.Count - 1; i >= 0; i--)
-//         {
-//             ItemStack stack = items[i];
-//             if (stack.item.itemName == itemToRemove.itemName)
-//             {
-//                 if (quantity >= stack.stackSize)
-//                 {
-//                     quantity -= stack.stackSize;
-//                     Debug.Log($"Removing stack {stack.stackSize} of {stack.item.itemName}");
-//                     items.RemoveAt(i);
-//                 }
-//                 else
-//                 {
-//                     stack.stackSize -= quantity;
-//                     Debug.Log($"Reducing stack by {quantity}, new count {stack.stackSize}");
-//                     quantity = 0;
-//                 }
-
-//                 if (quantity == 0)
-//                 {
-//                     OnInventoryChanged?.Invoke();
-//                     // Deselect the item if it's the selected item being removed
-//                     if (selectedItem == stack.item)
-//                     {
-//                         selectedItem = null;
-//                         OnSelectedItemChanged?.Invoke(null);
-//                     }
-//                     return;
-//                 }
-//             }
-//         }
-//         OnInventoryChanged?.Invoke();
-//     }
-
-//     public void SelectItem(int index)
-//     {
-//         if (index >= 0 && index < items.Count)
-//         {
-//             selectedItem = items[index].item;
-//             OnSelectedItemChanged?.Invoke(selectedItem);
-//             Debug.Log("Selected item: " + selectedItem.itemName);
-//         }
-//     }
-
-//     public Item GetSelectedItem()
-//     {
-//         return selectedItem;
-//     }
-// }
-
-
-/////////////////works/////////////
-// using System.Collections;
-// using System.Collections.Generic;
-// using System;
-// using UnityEngine;
-
-// public class Inventory : MonoBehaviour
-// {
-//     [SerializeField]
-//     public List<ItemStack> items = new List<ItemStack>();
-
-//     [System.Serializable]
-//     public class ItemStack
-//     {
-//         public Item item;
-//         public int stackSize;
-//     }
-
-//     //public Item someItemReference;
-
-//     // Event to notify when the inventory changes
-//     public event Action OnInventoryChanged;
-
-//     void Start()
-//     {
-
-//     }
-
-//     public bool IsFull()
-//     {
-//         return items.Count >= 4; // Assuming 9 is the maximum number of different items the inventory can hold
-//     }
-
-//     public bool AddItem(Item itemToAdd, int quantity = 1)
-//     {
-//         foreach (var itemStack in items)
-//         {
-//             if (itemStack.item.itemName == itemToAdd.itemName && itemStack.stackSize < itemStack.item.maxStack)
-//             {
-//                 int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
-//                 int toAdd = Mathf.Min(quantity, availableSpace);
-//                 itemStack.stackSize += toAdd;
-//                 quantity -= toAdd;
-//                 if (quantity == 0)
-//                 {
-//                     OnInventoryChanged?.Invoke();
-//                     return true;
-//                 }
-//             }
-//         }
-//         if (quantity > 0 && !IsFull())
-//         {
-//             items.Add(new ItemStack { item = itemToAdd, stackSize = quantity });
-//             OnInventoryChanged?.Invoke();
-//             return true;
-//         }
-//         return false;
-//     }
-
-//     public bool RemoveItem(Item itemToRemove, int quantity = 1)
-//     {
-//         for (int i = items.Count - 1; i >= 0; i--)
-//         {
-//             ItemStack stack = items[i];
-//             if (stack.item.itemName == itemToRemove.itemName)
-//             {
-//                 if (quantity >= stack.stackSize)
-//                 {
-//                     quantity -= stack.stackSize;
-//                     items.RemoveAt(i);
-//                 }
-//                 else
-//                 {
-//                     stack.stackSize -= quantity;
-//                     OnInventoryChanged?.Invoke();
-//                     return true;
-//                 }
-//             }
-//         }
-//         OnInventoryChanged?.Invoke();
-//         return quantity == 0;
-//     }
-// }

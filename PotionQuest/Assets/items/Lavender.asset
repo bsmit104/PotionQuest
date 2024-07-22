@@ -15,3 +15,7 @@ MonoBehaviour:
   itemName: Lavender
   itemIcon: {fileID: 21300000, guid: e7c437be2d5f09146b7dc207e03be2a2, type: 3}
   maxStack: 1
+  itemObject: {fileID: 2730165665592427973, guid: d23f1009b75092c479e702cd75456e89, type: 3}
+  offsetPosition: {x: 0, y: 0.1, z: 0}
+  offsetRotation: {x: -90, y: 0, z: 0}
+  offsetScale: 0.5

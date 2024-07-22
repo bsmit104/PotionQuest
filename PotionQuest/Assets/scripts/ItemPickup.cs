@@ -21,14 +21,20 @@ public class ItemPickup : MonoBehaviour
                 if (playerInventory != null)
                 {
                     Debug.Log("Player has inventory!");
-                    if (playerInventory.AddItem(item))
+                    if (playerInventory.AddItem(item) == 1)
                     {
                         Destroy(gameObject); // Destroy the item GameObject after collecting
                         Debug.Log("Item added to inventory");
                         Debug.Log("Inventory Contents:");
                         foreach (var inventoryItem in playerInventory.items)
                         {
-                            Debug.Log("Item: " + inventoryItem.item.itemName + ", Stack Size: " + inventoryItem.stackSize);
+                            if (inventoryItem.item != null)
+                            {
+                                Debug.Log("Item: " + inventoryItem.item.itemName + ", Stack Size: " + inventoryItem.stackSize);
+                            }else
+                            {
+                                Debug.Log("Item: null, Stack Size: 0");
+                            }
                         }
                     }
                     else

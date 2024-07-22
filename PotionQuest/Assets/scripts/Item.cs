@@ -10,6 +10,11 @@ public class Item : ScriptableObject
     public Sprite itemIcon; // Icon representing the item in the UI
     //public GameObject itemPrefab;
     public int maxStack; // Maximum stack size for this item
+    
+    public GameObject itemObject;
+    public Vector3 offsetPosition = new Vector3(0,0.1f, 0);
+    public Vector3 offsetRotation = new Vector3(-90, 0, 0);
+    public float offsetScale = 0.5f;
 
     // You can add more properties here, like item ID, description, etc.
 }
