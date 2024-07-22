@@ -106,7 +106,7 @@ public class Alch : MonoBehaviour
     {
         //loop over ingredient slots and add to a dictionary
         Dictionary<string, int> ingredientCounts = new Dictionary<string, int>();
-        for (int i = 0; i < inventory.items.Length - 2; i++)
+        for (int i = 0; i < inventory.items.Length - 1; i++)
         {
             ItemStack stack = inventory.items[i];
 

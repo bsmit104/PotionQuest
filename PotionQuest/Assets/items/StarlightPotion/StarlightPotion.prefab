@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 7350101595705086146}
   - component: {fileID: 3499080762452703410}
   - component: {fileID: 9148621110857662449}
-  - component: {fileID: 59208534545863065}
-  - component: {fileID: 8687325323887238221}
   - component: {fileID: 6341992227321237780}
+  - component: {fileID: 3376116144803537914}
   m_Layer: 0
   m_Name: StarlightPotion
   m_TagString: Untagged
@@ -104,54 +103,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 6457297647919163723}
---- !u!54 &59208534545863065
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2339572042663239592}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &8687325323887238221
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2339572042663239592}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 1.08}
-  m_Center: {x: -0.000000029802322, y: 0.00000002980233, z: 0.09}
 --- !u!64 &6341992227321237780
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -174,6 +125,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1388986636967069719, guid: 0d2a71013ce0cf243ab45d4f94f1f66e, type: 3}
+--- !u!114 &3376116144803537914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2339572042663239592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4588595429a9b244bb8fffb714fc0b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 2c99df55c60cef54487aa0aee87545ce, type: 2}
+  CanBePickedUp: 0
 --- !u!1 &5903148955774477174
 GameObject:
   m_ObjectHideFlags: 0

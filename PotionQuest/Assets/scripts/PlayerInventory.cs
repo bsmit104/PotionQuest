@@ -37,8 +37,11 @@ public class PlayerInventory : Inventory
             if (iconTransform != null)
             {
                 UnityEngine.UI.Image iconImage = iconTransform?.GetComponent<UnityEngine.UI.Image>();
+                playerInventoryUI.slots[selectedSlot].transform.localScale = Vector3.one;
                 if (iconImage != null)
-                    iconImage.color = new Color(0.5f, 0.5f, 0.5f, 1);
+                    if (iconImage.sprite == null)
+                        iconImage.color = new Color(1, 0.6588176f, 0.4764151f, 1);
+                    
             }
             
             selectedSlot = index;
@@ -46,6 +49,7 @@ public class PlayerInventory : Inventory
             iconTransform = playerInventoryUI.slots[selectedSlot].transform.Find("Icon");
             if (iconTransform != null)
             {
+                playerInventoryUI.slots[selectedSlot].transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
                 UnityEngine.UI.Image iconImage = iconTransform?.GetComponent<UnityEngine.UI.Image>();
                 if (iconImage != null)
                     iconImage.color = Color.white;

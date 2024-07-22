@@ -261,7 +261,7 @@ public class InventoryUI : MonoBehaviour
                 if (iconImage != null)
                 {
                     iconImage.sprite = inventory.items[i].item.itemIcon;
-                    new Color(0.5f, 0.5f, 0.5f, 1);
+                    iconImage.color = Color.white;
                 }
                 if (countText != null)
                 {
@@ -271,7 +271,7 @@ public class InventoryUI : MonoBehaviour
             else
             {
                 if (iconImage != null) iconImage.sprite = null;
-                if (iconImage != null) iconImage.color = new Color(0.5f, 0.5f, 0.5f, 1);
+                if (iconImage != null) iconImage.color = new Color(1, 0.6588176f, 0.4764151f, 1);
                 if (countText != null) countText.text = "";
             }
         }

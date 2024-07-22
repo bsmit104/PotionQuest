@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
 
     public PlayerInventory inventory;
+    private Item selectedItem;
+    public Transform ItemDisplay;
+    protected GameObject ItemDisplayObject;
 
     public TextMeshProUGUI textMeshPro;
 
@@ -91,6 +94,30 @@ public class PlayerController : MonoBehaviour
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        }
+
+        //display your selected item in your hands
+        if (selectedItem != inventory.items[inventory.selectedSlot].item)
+        {
+            selectedItem = inventory.items[inventory.selectedSlot].item;
+            //update display
+            if (selectedItem != null)
+            {
+                Destroy(ItemDisplayObject);
+                
+                ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation, ItemDisplay);
+                ItemDisplayObject.transform.localRotation = Quaternion.Euler(selectedItem.offsetRotation);
+                ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
+                if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+                {
+                    comp.CanBePickedUp = false;
+                }
+            }else
+            {
+                Destroy(ItemDisplayObject);
+            }
+            
+
         }
 
         //interact with things in front of us

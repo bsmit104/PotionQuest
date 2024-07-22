@@ -6,9 +6,12 @@ public class ItemPickup : MonoBehaviour
 {
     public Item item; // Reference to the item scriptable object representing this item
 
+    public bool CanBePickedUp = true;
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger entered!");
+        if (!CanBePickedUp) return;
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player collided!");

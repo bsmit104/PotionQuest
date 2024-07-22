@@ -438,6 +438,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1313329205}
     m_Modifications:
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.g
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4264473214767427593, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_Name
       value: inventorySlot (2)
@@ -3034,7 +3046,10 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: b00ce1638da5ff24c8bddf0d561970ae, type: 3}
     - {fileID: -8700617353114198275, guid: b00ce1638da5ff24c8bddf0d561970ae, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: b00ce1638da5ff24c8bddf0d561970ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1566850103}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b00ce1638da5ff24c8bddf0d561970ae, type: 3}
 --- !u!1 &961053352
@@ -3091,7 +3106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -7840,6 +7855,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb775d6abd98e4d4b8505fa75ca51850, type: 3}
+--- !u!1 &1566850102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1566850103}
+  m_Layer: 0
+  m_Name: ItemDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1566850103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566850102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.262, y: 2.255, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 111003885}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583221352
 GameObject:
   m_ObjectHideFlags: 0
@@ -10890,6 +10936,10 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4432342137811827848, guid: f4e1780900d471841a50d80846944911, type: 3}
+      propertyPath: ItemDisplay
+      value: 
+      objectReference: {fileID: 1566850103}
+    - target: {fileID: 4432342137811827848, guid: f4e1780900d471841a50d80846944911, type: 3}
       propertyPath: textMeshPro
       value: 
       objectReference: {fileID: 497275676}
@@ -11162,6 +11212,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1313329205}
     m_Modifications:
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4764151
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6588176
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4264473214767427593, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_Name
       value: inventorySlot (1)
@@ -11564,6 +11626,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1313329205}
     m_Modifications:
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.g
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4264473214767427593, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_Name
       value: inventorySlot (3)
@@ -11687,6 +11761,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1313329205}
     m_Modifications:
+    - target: {fileID: 1735390588221282874, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1794482181617052837, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -11782,6 +11860,10 @@ PrefabInstance:
     - target: {fileID: 5559935700763593521, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559935700763593521, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6532460780018528606, guid: 877650b3dd85e514dbe3710d78fc0cee, type: 3}
       propertyPath: m_Color.b
