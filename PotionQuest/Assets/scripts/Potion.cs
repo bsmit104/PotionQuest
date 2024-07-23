@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Potion : MonoBehaviour
 {
     [SerializeField]
     protected GameObject potionInside;
     protected Renderer potionRenderer;
 
-    protected float _amount = 1;
+    [SerializeField]
+    protected float _amount = 0.5f;
+
     public float Amount {
         get { return _amount;  }
         set { SetAmount(value);}
@@ -58,6 +61,6 @@ public class Potion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Amount = 0.1f;
+        //Amount = 0.1f;
     }
 }
