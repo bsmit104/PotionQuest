@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb09ac2f3f089d64993b4e995b8bedff, type: 3}
+  m_Name: Sulfuric Acid
+  m_EditorClassIdentifier: 
+  itemName: Sulfuric Acid
+  itemIcon: {fileID: 21300000, guid: 1d6b3c50945e7944fb88827acc08a3d7, type: 3}
+  maxStack: 1
+  itemObject: {fileID: 1004493394998166917, guid: dae217745a77ccf4f937592f437d20de, type: 3}
+  offsetPosition: {x: 0, y: 0.1, z: 0}
+  offsetRotation: {x: -90, y: 0, z: 0}
+  offsetScale: 0.5
