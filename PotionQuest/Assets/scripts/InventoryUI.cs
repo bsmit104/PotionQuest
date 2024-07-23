@@ -186,14 +186,13 @@ public class InventoryUI : MonoBehaviour
                             {
                                 Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
-                                inventory.items[draggedItemIndex].item = null;
-                                inventory.items[draggedItemIndex].stackSize = 0;
+                                inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                                 
                             }
                             else
                             {
                                 Debug.Log("only added " + amountAdded + " items");
-                                inventory.items[draggedItemIndex].stackSize -= amountAdded;
+                                inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                         }else
                         {
@@ -203,13 +202,12 @@ public class InventoryUI : MonoBehaviour
                             {
                                 Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
-                                inventory.items[draggedItemIndex].item = null;
-                                inventory.items[draggedItemIndex].stackSize = 0;
+                                inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                             else
                             {
                                 Debug.Log("only added " + amountAdded + " items");
-                                inventory.items[draggedItemIndex].stackSize -= amountAdded;
+                                inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                         }
                         
@@ -222,6 +220,7 @@ public class InventoryUI : MonoBehaviour
                     Debug.Log("Dragged item not over chestUI slotPanel");
                 }
             }
+            
 
             // Clean up the dragged item object
             Destroy(draggedItem);

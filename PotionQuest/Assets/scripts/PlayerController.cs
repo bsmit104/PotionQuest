@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
+        inventory.OnInventoryChanged += UpdateMass;
         characterController = GetComponent<CharacterController>();
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
@@ -96,6 +96,9 @@ public class PlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
+        //Update the characters weight based on held items
+        
+
         //display your selected item in your hands
         if (selectedItem != inventory.items[inventory.selectedSlot].item)
         {
@@ -105,9 +108,10 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(ItemDisplayObject);
                 
-                ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation, ItemDisplay);
-                ItemDisplayObject.transform.localRotation = Quaternion.Euler(selectedItem.offsetRotation);
+                ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
+                ItemDisplayObject.transform.rotation = Quaternion.Euler(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
+                ItemDisplayObject.transform.parent = ItemDisplay;
                 if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
                 {
                     comp.CanBePickedUp = false;
@@ -166,5 +170,16 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void UpdateMass()
+    {
+        float newMass = 1;
+        foreach(ItemStack stack in inventory.items)
+        {
+            if (stack.item != null)
+                newMass += stack.item.itemWeight * stack.stackSize;
+        }
+        GetComponent<Rigidbody>().mass = newMass;
     }
 }

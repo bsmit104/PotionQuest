@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6341992227321237780}
   - component: {fileID: 3376116144803537914}
   m_Layer: 0
-  m_Name: StarlightPotion
+  m_Name: StrengthPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 644a2b6d639bf164b9b0aef8a1d1d38b, type: 2}
+  - {fileID: 2100000, guid: bbc3b4a3504c9a749854bda9cfb30893, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

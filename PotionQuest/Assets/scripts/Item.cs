@@ -10,6 +10,9 @@ public class Item : ScriptableObject
     public Sprite itemIcon; // Icon representing the item in the UI
     //public GameObject itemPrefab;
     public int maxStack; // Maximum stack size for this item
+
+    // The weight of the object, should be same as rigidbody mass if it has one
+    public float itemWeight = 1;
     
     public GameObject itemObject;
     public Vector3 offsetPosition = new Vector3(0,0.1f, 0);
