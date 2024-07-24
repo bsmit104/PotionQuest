@@ -1966,7 +1966,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.08
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -4247,7 +4247,7 @@ GameObject:
   - component: {fileID: 1233006022}
   - component: {fileID: 1233006021}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12144,6 +12144,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8749614214338030533, guid: 22421982b5b84e04bb0d439074babda7, type: 3}
   m_PrefabInstance: {fileID: 1404286982}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2141874170
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 47.02267
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.022254
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -50.439133
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
+      propertyPath: m_Name
+      value: ShadowMonster
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ba5f72982de6fd4780a105fbbc45a79, type: 3}
 --- !u!4 &543450652905679298
 Transform:
   m_ObjectHideFlags: 0
@@ -14031,3 +14088,4 @@ SceneRoots:
   - {fileID: 717262257}
   - {fileID: 623351716}
   - {fileID: 295838173}
+  - {fileID: 2141874170}
