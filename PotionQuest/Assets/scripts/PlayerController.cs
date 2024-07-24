@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     protected GameObject ItemDisplayObject;
 
     public TextMeshProUGUI textMeshPro;
+    public LightManager lightManager;
 
     void Start()
     {
@@ -96,8 +97,40 @@ public class PlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
-        //Update the characters weight based on held items
-        
+        bool inLight = false;
+        //check to see whether or not we are in shadowwwwww
+        foreach (SafeLight light in lightManager.lights)
+        {
+            if (light.type == LightType.PointLight)
+            {
+                //point light
+                //get the range of the point light, and exlude it if we are past that
+                Vector3 ToLight = light.gameObject.transform.position - transform.position;
+
+                if (ToLight.sqrMagnitude <= light.light.range * light.light.range)
+                {
+                    //the distance to the light is lesser than the lights range, so lets scan for anything blocking the light
+                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 7, QueryTriggerInteraction.Ignore))
+                    {
+                        //something is blocking the light.
+                        inLight = true;                        
+                    }
+                }
+            }else
+            {
+                //directional or other
+                //just raycast at the light direction and see if it hits something
+                Vector3 LightDirection = light.gameObject.transform.forward;
+                if (!Physics.Raycast(transform.position, -LightDirection, 50, 7, QueryTriggerInteraction.Ignore))
+                {
+                    inLight = true;
+                }
+            }
+        }
+        if (inLight)
+        {
+            // Debug.Log("We are in light!");
+        }
 
         //display your selected item in your hands
         if (selectedItem != inventory.items[inventory.selectedSlot].item)

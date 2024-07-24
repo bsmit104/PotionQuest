@@ -110,7 +110,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _FillPercent: 0.849
+    - _FillPercent: 0.562
     - _FoamSmoothing: 0.03
     - _FoamWidth: 0.06
     - _FresnelPower: 2.1
