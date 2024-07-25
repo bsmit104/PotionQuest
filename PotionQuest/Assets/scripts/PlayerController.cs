@@ -57,6 +57,14 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = true;
     }
 
+    ////////adding jump check//////
+    public bool IsJumping()
+    {
+        // This method checks if the player is currently jumping
+        return !characterController.isGrounded;
+    }
+    ///////////////////////////////
+
     void Update()
     {
 
@@ -113,10 +121,11 @@ public class PlayerController : MonoBehaviour
                     if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 7, QueryTriggerInteraction.Ignore))
                     {
                         //something is blocking the light.
-                        inLight = true;                        
+                        inLight = true;
                     }
                 }
-            }else
+            }
+            else
             {
                 //directional or other
                 //just raycast at the light direction and see if it hits something
@@ -140,7 +149,7 @@ public class PlayerController : MonoBehaviour
             if (selectedItem != null)
             {
                 Destroy(ItemDisplayObject);
-                
+
                 ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
                 ItemDisplayObject.transform.rotation = Quaternion.Euler(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
@@ -149,11 +158,12 @@ public class PlayerController : MonoBehaviour
                 {
                     comp.CanBePickedUp = false;
                 }
-            }else
+            }
+            else
             {
                 Destroy(ItemDisplayObject);
             }
-            
+
 
         }
 
@@ -167,8 +177,8 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
             {
                 //show what text needs to be shown to help with interaction
-                
-                
+
+
                 if (display.inventory.items[display.slotIndex].item == null)
                 {
                     //don't be able to add items to it if you aren't supposed to
@@ -181,11 +191,12 @@ public class PlayerController : MonoBehaviour
                             inventory.RemoveItemFromSlot(inventory.selectedSlot, amountAdded);
                         }
                         if (inventory.items[inventory.selectedSlot].item != null)
-                            textMeshPro.text = "Place Item";   
+                            textMeshPro.text = "Place Item";
                     }
-                }else
+                }
+                else
                 {
-                    textMeshPro.text = "Pick Up Item";   
+                    textMeshPro.text = "Pick Up Item";
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         //there is already an item there, so try to take the item
@@ -197,9 +208,9 @@ public class PlayerController : MonoBehaviour
                             display.DisplayItem(null);
                         }
                     }
-                    
+
                 }
-                
+
                 break;
             }
         }
@@ -208,7 +219,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMass()
     {
         float newMass = 1;
-        foreach(ItemStack stack in inventory.items)
+        foreach (ItemStack stack in inventory.items)
         {
             if (stack.item != null)
                 newMass += stack.item.itemWeight * stack.stackSize;
