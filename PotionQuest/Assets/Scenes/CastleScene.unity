@@ -4610,6 +4610,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   light: {fileID: 0}
   type: 0
+--- !u!1001 &227983724
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 141.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 261.54068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1986.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057822445825979710, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5583106856936812420, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
+      propertyPath: m_Name
+      value: flyagaric (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 02bda7315c1b39a4c91f9eb3cd849b27, type: 3}
 --- !u!1 &229014348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2181743766629440291, guid: 71fe456be60ef7843933a9f48a5ed9b8, type: 3}
@@ -28621,6 +28678,8 @@ GameObject:
   - component: {fileID: 1553481095}
   - component: {fileID: 1553481094}
   - component: {fileID: 1553481093}
+  - component: {fileID: 1553481097}
+  - component: {fileID: 1553481098}
   m_Layer: 0
   m_Name: pressurePlate
   m_TagString: Untagged
@@ -28650,7 +28709,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553481091}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ca05c63e3583646ad1957bccf1ebd9, type: 3}
   m_Name: 
@@ -28734,6 +28793,117 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1553481091}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1553481097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553481091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd648031fb20e34fb6b4be7beb1cd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  closed: {fileID: 1006733440}
+  open: {fileID: 624015731}
+--- !u!82 &1553481098
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553481091}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d69506bf1ded2ee479d7a8fa142fbd0d, type: 3}
+  m_Resource: {fileID: 8300000, guid: d69506bf1ded2ee479d7a8fa142fbd0d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1555871071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31477,7 +31647,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704249080}
-  - component: {fileID: 1704249082}
   - component: {fileID: 1704249081}
   m_Layer: 0
   m_Name: lockedPantryDoor
@@ -31524,24 +31693,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.071144, y: 7.0621185, z: 4.2015567}
   m_Center: {x: -1.7324567, y: 3.0310593, z: 1.6007794}
---- !u!114 &1704249082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704249079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4ca05c63e3583646ad1957bccf1ebd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closed: {fileID: 2100545203}
-  open: {fileID: 1304822813}
-  feedbackText: {fileID: 1007321970}
-  feedbackMessage: If I was stronger
-  itemName: StrengthPotion
-  inventory: {fileID: 1083295367}
 --- !u!1001 &1704496719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40071,6 +40222,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40078,6 +40233,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2091212870}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2091212873}
   m_SourcePrefab: {fileID: 100100000, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
 --- !u!4 &2091212868 stripped
 Transform:
@@ -40111,6 +40269,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2619086233303812490, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+--- !u!114 &2091212873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091212869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7945bd1d5cd444092ab2672d73270a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 1083295367}
+  itemRequired: {fileID: 11400000, guid: 1c875f331f90b8043962caca9cdd3455, type: 2}
+  ConsumeItem: 1
+  EnableOnUse:
+  - {fileID: 1304822813}
+  DisableOnUse:
+  - {fileID: 2100545203}
+  NeedItemMessage: Looks like I need a Strength Potion to open this door.
+  HaveItemMessage: Use Strength Potion?
 --- !u!1 &2094144977
 GameObject:
   m_ObjectHideFlags: 0
@@ -41332,6 +41511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41339,6 +41522,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2142482956}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2142482959}
   m_SourcePrefab: {fileID: 100100000, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
 --- !u!4 &2142482954 stripped
 Transform:
@@ -41372,6 +41558,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2619086233303812490, guid: c3c9feadd629a2c43bfd53acbf3e698f, type: 3}
+--- !u!114 &2142482959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142482955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7945bd1d5cd444092ab2672d73270a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 1083295367}
+  itemRequired: {fileID: 11400000, guid: 1c875f331f90b8043962caca9cdd3455, type: 2}
+  ConsumeItem: 1
+  EnableOnUse:
+  - {fileID: 1304822813}
+  DisableOnUse:
+  - {fileID: 2100545203}
+  NeedItemMessage: Looks like I need a Strength Potion to open this door.
+  HaveItemMessage: Use Strength Potion?
 --- !u!1001 &2143757929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42681,6 +42888,7 @@ SceneRoots:
   - {fileID: 886442352}
   - {fileID: 1092131135}
   - {fileID: 2064469209}
+  - {fileID: 227983724}
   - {fileID: 832265983}
   - {fileID: 460535415}
   - {fileID: 1463427593}

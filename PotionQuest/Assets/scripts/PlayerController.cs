@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource footstepAudio;
     Vector3 lastFootstepPosition;
-    public float FootStepDistance = 12;
+    public float FootStepDistance = 6;
 
     void Start()
     {
@@ -82,21 +82,12 @@ public class PlayerController : MonoBehaviour
 
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = Input.GetAxis("Vertical");
-        float curSpeedY = Input.GetAxis("Horizontal");
+        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
         
-        if (!canMove || curSpeedX + curSpeedY == 0)
-        {
-            moveDirection = Vector3.zero;
-        }else if (isRunning)
-        {
-            moveDirection = moveDirection.normalized * runSpeed;
-        }else
-        {
-            moveDirection = moveDirection.normalized * walkSpeed;
-        }
+        //getting rid of diagonal fix cause idk what the canmove thing is doin and haven't looked at rest of code lol
 
         //footsteps
         if (characterController.isGrounded && (lastFootstepPosition - transform.position).sqrMagnitude > FootStepDistance)
@@ -199,29 +190,29 @@ public class PlayerController : MonoBehaviour
         textMeshPro.text = "";
         foreach (RaycastHit hit in results)
         {
+            //show what text needs to be shown to help with interaction
+            //interact with interactables!
+            if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable obj))
+            {
+                textMeshPro.text = obj.GetHoveredText();
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    obj.Press();
+                }
+                if (Input.GetMouseButtonDown(0))
+                {
+                    obj.LeftClick();
+                }
+                if (Input.GetMouseButtonDown(1))
+                {
+                    obj.RightClick();
+                }
+                break;
+            }
 
             if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
             {
-                //show what text needs to be shown to help with interaction
-                //interact with interactables!
-                if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable obj))
-                {
-                    textMeshPro.text = obj.GetHoveredText();
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        obj.OnPress();
-                    }
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        obj.OnLeftClick();
-                    }
-                    if (Input.GetMouseButtonDown(1))
-                    {
-                        obj.OnRightClick();
-                    }
-                    break;
-                }
-
+            
                 if (display.inventory.items[display.slotIndex].item == null)
                 {
                     //don't be able to add items to it if you aren't supposed to
@@ -245,11 +236,15 @@ public class PlayerController : MonoBehaviour
                         //there is already an item there, so try to take the item
                         ItemStack stack = display.inventory.items[display.slotIndex];
                         int amountAdded = inventory.AddItemToSlot(inventory.selectedSlot, stack.item, stack.stackSize);
-                        display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);
-                        if (display.inventory.items[display.slotIndex].stackSize < 1)
+                        if (amountAdded != 0)
                         {
-                            display.DisplayItem(null);
+                            display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);
+                            if (display.inventory.items[display.slotIndex].stackSize < 1)
+                            {
+                                display.DisplayItem(null);
+                            }
                         }
+                        
                     }
 
                 }

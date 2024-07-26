@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public Action OnInteract;
-    public Action OnLeftClick;
-    public Action OnRightClick;
-    public Action OnPress;
+    public event Action OnInteract;
+    public event Action OnLeftClick;
+    public event Action OnRightClick;
+    public event Action OnPress;
 
     virtual public string GetHoveredText()
     {
@@ -18,17 +18,17 @@ public class Interactable : MonoBehaviour
 
     public void LeftClick()
     {
-        OnInteract.Invoke();
-        OnLeftClick.Invoke();
+        OnInteract?.Invoke();
+        OnLeftClick?.Invoke();
     }
     public void RightClick()
     {
-        OnInteract.Invoke();
-        OnRightClick.Invoke();
+        OnInteract?.Invoke();
+        OnRightClick?.Invoke();
     }
     public void Press()
     {
-        OnInteract.Invoke();
-        OnPress.Invoke();
+        OnInteract?.Invoke();
+        OnPress?.Invoke();
     }
 }
