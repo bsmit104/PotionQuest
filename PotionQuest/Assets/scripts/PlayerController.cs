@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -177,7 +178,24 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
             {
                 //show what text needs to be shown to help with interaction
-
+                //interact with interactables!
+                if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable obj))
+                {
+                    textMeshPro.text = obj.GetHoveredText();
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        obj.OnPress();
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        obj.OnLeftClick();
+                    }
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        obj.OnRightClick();
+                    }
+                    break;
+                }
 
                 if (display.inventory.items[display.slotIndex].item == null)
                 {
