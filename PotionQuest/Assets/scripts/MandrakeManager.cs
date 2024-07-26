@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MandrakeManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class MandrakeManager : MonoBehaviour
     public float lowerSpeed = 0.2f;
     public float maxHeight = 5f;
 
+    public Item mandrakeItem;
+
     private List<MandrakeData> mandrakes = new List<MandrakeData>();
     private bool playerInArea = false;
     private PlayerController playerController;
@@ -15,10 +18,15 @@ public class MandrakeManager : MonoBehaviour
     void Start()
     {
         // Find all mandrakes in the scene
-        GameObject[] mandrakeObjects = GameObject.FindGameObjectsWithTag("Mandrake");
+        GameObject[] mandrakeObjects = GameObject.FindGameObjectsWithTag("Interactable");
+        
         foreach (GameObject mandrake in mandrakeObjects)
         {
-            mandrakes.Add(new MandrakeData(mandrake.transform, mandrake.transform.position));
+            if (mandrake.TryGetComponent<ItemPickup>(out ItemPickup pickup))
+            {
+                if (pickup.item == mandrakeItem)
+                    mandrakes.Add(new MandrakeData(mandrake.transform, mandrake.transform.position));
+            }
         }
     }
 

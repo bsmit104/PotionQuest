@@ -68,6 +68,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mead
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     - target: {fileID: 7071182760956848314, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -126,3 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 7c7af9ae699419447a0662d0889ae311, type: 2}
+  ConsumeItem: 1

@@ -36,10 +36,13 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     public LightManager lightManager;
 
-    private AudioSource footstepAudio;
+    //footsteps
+    public AudioSource footstepAudio;
     Vector3 lastFootstepPosition;
     public float FootStepDistance = 6;
 
+    //pickup sound
+    public AudioSource pickupAudio;
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -175,10 +178,10 @@ public class PlayerController : MonoBehaviour
                 {
                     collider.enabled = false;
                 }
-                if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
-                {
-                    comp.CanBePickedUp = false;
-                }
+                // if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+                // {
+                //     comp.CanBePickedUp = false;
+                // }
             }
             else
             {
@@ -198,12 +201,12 @@ public class PlayerController : MonoBehaviour
             //interact with interactables!
             if (hit.transform.gameObject.tag == "Interactable")
             {
-                Debug.Log("hit interactable");
+                //Debug.Log("hit interactable");
                 GameObject obj = hit.transform.gameObject;
                 while (obj.transform.parent != null && !hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable i) && obj.tag == "Interactable")
                 {
                     obj = obj.transform.parent.gameObject;
-                    Debug.Log("moving up a parent");
+                    //Debug.Log("moving up a parent");
                 }
                 if (obj.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
                 {
@@ -267,6 +270,11 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void PlayPickupSound()
+    {
+        pickupAudio.Play();
     }
 
     private void UpdateMass()
