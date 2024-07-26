@@ -17490,6 +17490,22 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 857551858}
+    - target: {fileID: 4432342137811827848, guid: f4e1780900d471841a50d80846944911, type: 3}
+      propertyPath: FootStepDistance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619357525126285561, guid: f4e1780900d471841a50d80846944911, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4619357525126285561, guid: f4e1780900d471841a50d80846944911, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: f4ab4e38c8fd68e468c63e8b3324fda4, type: 3}
+    - target: {fileID: 4619357525126285561, guid: f4e1780900d471841a50d80846944911, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f4ab4e38c8fd68e468c63e8b3324fda4, type: 3}
     - target: {fileID: 6051728998111979826, guid: f4e1780900d471841a50d80846944911, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

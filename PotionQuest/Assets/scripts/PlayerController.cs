@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     public LightManager lightManager;
 
+    private AudioSource footstepAudio;
+    Vector3 lastFootstepPosition;
+    public float FootStepDistance = 12;
+
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -44,6 +48,9 @@ public class PlayerController : MonoBehaviour
         // Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
         LockCursor();
+        //footstep audio
+        footstepAudio = GetComponent<AudioSource>();
+        lastFootstepPosition = transform.position;
     }
 
     public void LockCursor()
@@ -75,10 +82,28 @@ public class PlayerController : MonoBehaviour
 
         // Press Left Shift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
+        float curSpeedX = Input.GetAxis("Vertical");
+        float curSpeedY = Input.GetAxis("Horizontal");
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        
+        if (!canMove || curSpeedX + curSpeedY == 0)
+        {
+            moveDirection = Vector3.zero;
+        }else if (isRunning)
+        {
+            moveDirection = moveDirection.normalized * runSpeed;
+        }else
+        {
+            moveDirection = moveDirection.normalized * walkSpeed;
+        }
+
+        //footsteps
+        if (characterController.isGrounded && (lastFootstepPosition - transform.position).sqrMagnitude > FootStepDistance)
+        {
+            lastFootstepPosition = transform.position;
+            footstepAudio.Play();
+        }
 
         // Jump Logic
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
