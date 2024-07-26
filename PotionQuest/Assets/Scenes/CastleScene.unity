@@ -9434,8 +9434,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closed: {fileID: 358886347}
   open: {fileID: 1467280856}
-  feedbackText: {fileID: 0}
-  feedbackMessage: 
+  feedbackText: {fileID: 1007321970}
+  feedbackMessage: Father Goblin would bend those bars for real
   itemName: StrengthPotion
   inventory: {fileID: 1083295367}
 --- !u!65 &450633178
