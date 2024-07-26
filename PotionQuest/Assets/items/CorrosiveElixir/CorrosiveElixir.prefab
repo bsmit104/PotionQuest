@@ -116,7 +116,7 @@ GameObject:
   - component: {fileID: 6612237936550430341}
   - component: {fileID: 2988924834918516845}
   m_Layer: 0
-  m_Name: CorrosiveElixer
+  m_Name: CorrosiveElixir
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,7 +206,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -225,8 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4588595429a9b244bb8fffb714fc0b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: ea7e5bbae4e873046967671b8cef7ddc, type: 2}
-  CanBePickedUp: 0
+  item: {fileID: 11400000, guid: 011cd3d8583908445ae6b5c46f376989, type: 2}
+  CanBePickedUp: 1
 --- !u!114 &2988924834918516845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 260023305270150383}
+  _amount: 0.5
 --- !u!1 &7291334485003412312
 GameObject:
   m_ObjectHideFlags: 0

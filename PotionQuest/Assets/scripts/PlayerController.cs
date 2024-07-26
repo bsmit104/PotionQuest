@@ -192,23 +192,34 @@ public class PlayerController : MonoBehaviour
         {
             //show what text needs to be shown to help with interaction
             //interact with interactables!
-            if (hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable obj))
+            if (hit.transform.gameObject.tag == "Interactable")
             {
-                textMeshPro.text = obj.GetHoveredText();
-                if (Input.GetKeyDown(KeyCode.E))
+                Debug.Log("hit interactable");
+                GameObject obj = hit.transform.gameObject;
+                while (obj.transform.parent != null && !hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable i) && obj.tag == "Interactable")
                 {
-                    obj.Press();
+                    obj = obj.transform.parent.gameObject;
+                    Debug.Log("moving up a parent");
                 }
-                if (Input.GetMouseButtonDown(0))
+                if (obj.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
                 {
-                    obj.LeftClick();
+                    textMeshPro.text = interactable.GetHoveredText();
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactable.Press();
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        interactable.LeftClick();
+                    }
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        interactable.RightClick();
+                    }
+                    break;
                 }
-                if (Input.GetMouseButtonDown(1))
-                {
-                    obj.RightClick();
-                }
-                break;
             }
+            
 
             if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
             {

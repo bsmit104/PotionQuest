@@ -7,6 +7,7 @@ TagManager:
   - Inventory
   - LightManager
   - Mandrake
+  - Interactable
   layers:
   - Default
   - TransparentFX
