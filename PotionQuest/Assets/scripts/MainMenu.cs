@@ -9,6 +9,6 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         // Load the scene named "game"
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("CastleScene");
     }
 }
