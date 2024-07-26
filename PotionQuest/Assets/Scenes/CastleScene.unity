@@ -50613,6 +50613,10 @@ PrefabInstance:
       value: well
       objectReference: {fileID: 0}
     - target: {fileID: 7666386630790829742, guid: b61e1984a52c2fb458a5ff458d1c1a1e, type: 3}
+      propertyPath: feedbackText
+      value: 
+      objectReference: {fileID: 1007321970}
+    - target: {fileID: 7666386630790829742, guid: b61e1984a52c2fb458a5ff458d1c1a1e, type: 3}
       propertyPath: destroyOnCollect
       value: 0
       objectReference: {fileID: 0}
