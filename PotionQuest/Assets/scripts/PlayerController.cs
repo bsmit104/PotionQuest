@@ -171,6 +171,10 @@ public class PlayerController : MonoBehaviour
                 ItemDisplayObject.transform.rotation = Quaternion.Euler(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
                 ItemDisplayObject.transform.parent = ItemDisplay;
+                if (ItemDisplayObject.TryGetComponent<Collider>(out Collider collider))
+                {
+                    collider.enabled = false;
+                }
                 if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
                 {
                     comp.CanBePickedUp = false;
