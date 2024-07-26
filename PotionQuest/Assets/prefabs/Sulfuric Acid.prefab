@@ -10,27 +10,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.39896
+      value: 0.68102473
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.27176356
+      value: 0.46390042
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.39896
+      value: 0.68102473
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.6447358
+      value: -52.21647
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1766877
+      value: 260.62
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.539489
+      value: 1946.9865
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       propertyPath: m_LocalRotation.w
@@ -83,6 +83,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1975328294655942338}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3202394257420271909}
   m_SourcePrefab: {fileID: 100100000, guid: b70f8cf8492830049b72282f3c123a66, type: 3}
 --- !u!1 &1004493394998166917 stripped
 GameObject:
@@ -102,3 +105,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: c2a400da6badb934a8b625ad17493684, type: 2}
+  CanBePickedUp: 1
+  destroyOnCollect: 1
+--- !u!65 &3202394257420271909
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004493394998166917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.8241234, z: 1}
+  m_Center: {x: 0, y: 1.2654475, z: 0}
