@@ -3,7 +3,12 @@ guid: 8450ab370b0212244be002d9b51ce23c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TentMaterial
+    second: {fileID: 2100000, guid: 8d6f09d8b4445354aa6f3f1548ce7457, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

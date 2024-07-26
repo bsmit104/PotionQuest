@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b4ccf59d612d7c34bacb21ce7ac588fe, type: 2}
+    - target: {fileID: -6902573867230041995, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f67a3a320847b384c86c542da1ad2163, type: 2}
     - target: {fileID: -6708018853324716707, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -580,6 +584,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b4ccf59d612d7c34bacb21ce7ac588fe, type: 2}
+    - target: {fileID: 7202271454713460447, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f67a3a320847b384c86c542da1ad2163, type: 2}
     - target: {fileID: 7233126815776327835, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -695,3 +703,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 79b6f691108908544bff143ad2e31fdf, type: 2}
+  CanBePickedUp: 1

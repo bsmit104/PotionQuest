@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 50f;
 
     public float lookSpeed = 1.5f;
-    public float lookXLimit = 45f;
+    private float lookXLimit = 85f;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -35,6 +36,10 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     public LightManager lightManager;
 
+    private AudioSource footstepAudio;
+    Vector3 lastFootstepPosition;
+    public float FootStepDistance = 6;
+
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -43,6 +48,9 @@ public class PlayerController : MonoBehaviour
         // Cursor.visible = false;
         characterController = GetComponent<CharacterController>();
         LockCursor();
+        //footstep audio
+        footstepAudio = GetComponent<AudioSource>();
+        lastFootstepPosition = transform.position;
     }
 
     public void LockCursor()
@@ -57,6 +65,14 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = true;
     }
 
+    ////////adding jump check//////
+    public bool IsJumping()
+    {
+        // This method checks if the player is currently jumping
+        return !characterController.isGrounded;
+    }
+    ///////////////////////////////
+
     void Update()
     {
 
@@ -70,6 +86,15 @@ public class PlayerController : MonoBehaviour
         float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
+        
+        //getting rid of diagonal fix cause idk what the canmove thing is doin and haven't looked at rest of code lol
+
+        //footsteps
+        if (characterController.isGrounded && (lastFootstepPosition - transform.position).sqrMagnitude > FootStepDistance)
+        {
+            lastFootstepPosition = transform.position;
+            footstepAudio.Play();
+        }
 
         // Jump Logic
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
@@ -113,10 +138,11 @@ public class PlayerController : MonoBehaviour
                     if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 7, QueryTriggerInteraction.Ignore))
                     {
                         //something is blocking the light.
-                        inLight = true;                        
+                        inLight = true;
                     }
                 }
-            }else
+            }
+            else
             {
                 //directional or other
                 //just raycast at the light direction and see if it hits something
@@ -140,7 +166,7 @@ public class PlayerController : MonoBehaviour
             if (selectedItem != null)
             {
                 Destroy(ItemDisplayObject);
-                
+
                 ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
                 ItemDisplayObject.transform.rotation = Quaternion.Euler(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
@@ -149,11 +175,12 @@ public class PlayerController : MonoBehaviour
                 {
                     comp.CanBePickedUp = false;
                 }
-            }else
+            }
+            else
             {
                 Destroy(ItemDisplayObject);
             }
-            
+
 
         }
 
@@ -163,12 +190,40 @@ public class PlayerController : MonoBehaviour
         textMeshPro.text = "";
         foreach (RaycastHit hit in results)
         {
+            //show what text needs to be shown to help with interaction
+            //interact with interactables!
+            if (hit.transform.gameObject.tag == "Interactable")
+            {
+                Debug.Log("hit interactable");
+                GameObject obj = hit.transform.gameObject;
+                while (obj.transform.parent != null && !hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable i) && obj.tag == "Interactable")
+                {
+                    obj = obj.transform.parent.gameObject;
+                    Debug.Log("moving up a parent");
+                }
+                if (obj.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
+                {
+                    textMeshPro.text = interactable.GetHoveredText();
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactable.Press();
+                    }
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        interactable.LeftClick();
+                    }
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        interactable.RightClick();
+                    }
+                    break;
+                }
+            }
+            
 
             if (hit.transform.gameObject.TryGetComponent<InventorySlotDisplay>(out InventorySlotDisplay display))
             {
-                //show what text needs to be shown to help with interaction
-                
-                
+            
                 if (display.inventory.items[display.slotIndex].item == null)
                 {
                     //don't be able to add items to it if you aren't supposed to
@@ -181,25 +236,30 @@ public class PlayerController : MonoBehaviour
                             inventory.RemoveItemFromSlot(inventory.selectedSlot, amountAdded);
                         }
                         if (inventory.items[inventory.selectedSlot].item != null)
-                            textMeshPro.text = "Place Item";   
+                            textMeshPro.text = "Place Item";
                     }
-                }else
+                }
+                else
                 {
-                    textMeshPro.text = "Pick Up Item";   
+                    textMeshPro.text = "Pick Up Item";
                     if (Input.GetKeyDown(KeyCode.E))
                     {
                         //there is already an item there, so try to take the item
                         ItemStack stack = display.inventory.items[display.slotIndex];
                         int amountAdded = inventory.AddItemToSlot(inventory.selectedSlot, stack.item, stack.stackSize);
-                        display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);
-                        if (display.inventory.items[display.slotIndex].stackSize < 1)
+                        if (amountAdded != 0)
                         {
-                            display.DisplayItem(null);
+                            display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);
+                            if (display.inventory.items[display.slotIndex].stackSize < 1)
+                            {
+                                display.DisplayItem(null);
+                            }
                         }
+                        
                     }
-                    
+
                 }
-                
+
                 break;
             }
         }
@@ -208,7 +268,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMass()
     {
         float newMass = 1;
-        foreach(ItemStack stack in inventory.items)
+        foreach (ItemStack stack in inventory.items)
         {
             if (stack.item != null)
                 newMass += stack.item.itemWeight * stack.stackSize;
