@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 50f;
 
     public float lookSpeed = 1.5f;
-    public float lookXLimit = 45f;
+    private float lookXLimit = 85f;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
