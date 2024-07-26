@@ -20,6 +20,7 @@ public class TriggerHandler : MonoBehaviour
             {
                 closed.SetActive(false);
                 open.SetActive(true);
+                inventory.RemoveItem(inventory.GetItemByName(itemName));
             }
             else
             {
