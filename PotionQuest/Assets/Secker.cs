@@ -8,6 +8,9 @@ public class Secker : MonoBehaviour
     private Rigidbody rb;
     public float MoveSpeed = 7;
 
+    public AudioSource footstepSoundSource;
+    public AudioClip footstepSound;
+
 
     //target: what to control the position of to move the leg
     //position: the position the leg should be at
@@ -156,6 +159,11 @@ public class Secker : MonoBehaviour
             Legs[ActiveLeg].Lerp += Time.deltaTime * LegMoveSpeed;
         }else
         {
+            if (Legs[ActiveLeg].Lerp < 100)
+            {
+                footstepSoundSource.Play();
+                Legs[ActiveLeg].Lerp = 200;
+            }
             Legs[ActiveLeg].PositionPrevious = Legs[ActiveLeg].PositionWanted;
             //Legs[ActiveLeg].Lerp = 0;
             ActiveLeg = -1;
