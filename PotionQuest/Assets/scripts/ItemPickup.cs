@@ -1,59 +1,50 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class ItemPickup : MonoBehaviour
+public class ItemPickup : Interactable
 {
-    public Item item; // Reference to the item scriptable object representing this item
+    private PlayerInventory playerInventory;
 
-    public bool CanBePickedUp = true;
+    public Item item;
+    public bool ConsumeItem = true;
 
-    private void OnTriggerEnter(Collider other)
+    public override string GetHoveredText()
     {
-        Debug.Log("Trigger entered!");
-        if (!CanBePickedUp) return;
-        if (other.CompareTag("Player"))
+        return "Pick up " + item.itemName;
+    }
+
+    private void Start() {
+        playerInventory = GameObject.FindGameObjectWithTag("Inventory").GetComponent<PlayerInventory>();
+        //leftclick, rightclick, and e all work
+        OnInteract += Activate;
+    }
+
+    private void Activate()
+    {
+        Debug.Log("trying to add item to inventory");
+        int added = playerInventory.AddItemToSlot(playerInventory.selectedSlot, item, 1);
+        if (added == 0)
         {
-            Debug.Log("Player collided!");
-            // Find the inventory GameObject in the scene
-            GameObject inventoryObject = GameObject.FindGameObjectWithTag("Inventory");
-            if (inventoryObject != null)
+            added = playerInventory.AddItem(item, 1);
+            if (added != 0)
             {
-                // Get the Inventory component from the inventory GameObject
-                Inventory playerInventory = inventoryObject.GetComponent<Inventory>();
-                if (playerInventory != null)
-                {
-                    Debug.Log("Player has inventory!");
-                    if (playerInventory.AddItem(item) == 1)
-                    {
-                        Destroy(gameObject); // Destroy the item GameObject after collecting
-                        Debug.Log("Item added to inventory");
-                        Debug.Log("Inventory Contents:");
-                        foreach (var inventoryItem in playerInventory.items)
-                        {
-                            if (inventoryItem.item != null)
-                            {
-                                Debug.Log("Item: " + inventoryItem.item.itemName + ", Stack Size: " + inventoryItem.stackSize);
-                            }else
-                            {
-                                Debug.Log("Item: null, Stack Size: 0");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Debug.Log("Inventory is full, cannot add item");
-                    }
-                }
-                else
-                {
-                    Debug.Log("Inventory component not found!");
-                }
+                //add item worked
+                if (ConsumeItem)
+                    Destroy(this.gameObject);
+                return;
             }
-            else
-            {
-                Debug.Log("Inventory GameObject not found!");
-            }
+            //failed to get item
+        }else
+        {
+            //we added the item to the slot
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().PlayPickupSound();
+            if (ConsumeItem)
+                Destroy(this.gameObject);
+            
         }
     }
 }
+

@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6ba255975e0bfdb4d87f778386de14e5, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: 6ba255975e0bfdb4d87f778386de14e5, type: 3}
@@ -103,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 619eef3749490704cb0d71424a58fcbe, type: 2}
-  CanBePickedUp: 1
+  ConsumeItem: 1
 --- !u!65 &7564384664794312602
 BoxCollider:
   m_ObjectHideFlags: 0

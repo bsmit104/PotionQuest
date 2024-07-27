@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 2988924834918516845}
   m_Layer: 0
   m_Name: GoblinTonic
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: ea7e5bbae4e873046967671b8cef7ddc, type: 2}
-  CanBePickedUp: 0
+  ConsumeItem: 1
 --- !u!114 &2988924834918516845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 260023305270150383}
+  _amount: 0.5
 --- !u!1 &7291334485003412312
 GameObject:
   m_ObjectHideFlags: 0

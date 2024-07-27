@@ -33,10 +33,14 @@ public class InventorySlotDisplay : MonoBehaviour
             displayObject = Instantiate(item.itemObject, this.transform.position + item.offsetPosition, this.transform.rotation);
             displayObject.transform.rotation = Quaternion.Euler(item.offsetRotation);
             displayObject.transform.localScale *= item.offsetScale;
-            if (displayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+            if (displayObject.TryGetComponent<Collider>(out Collider collider))
             {
-                comp.CanBePickedUp = false;
+                collider.enabled = false;
             }
+            // if (displayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+            // {
+            //     comp.CanBePickedUp = false;
+            // }
         }
         else
         {

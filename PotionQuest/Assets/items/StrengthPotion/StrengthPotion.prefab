@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3376116144803537914}
   m_Layer: 0
   m_Name: StrengthPotion
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 6457297647919163723}
+  _amount: 0.5
 --- !u!64 &6341992227321237780
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -138,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 2c99df55c60cef54487aa0aee87545ce, type: 2}
-  CanBePickedUp: 0
+  ConsumeItem: 1
 --- !u!1 &5903148955774477174
 GameObject:
   m_ObjectHideFlags: 0

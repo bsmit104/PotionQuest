@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 2988924834918516845}
   m_Layer: 0
   m_Name: CorrosiveElixir
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 011cd3d8583908445ae6b5c46f376989, type: 2}
-  CanBePickedUp: 1
+  ConsumeItem: 1
 --- !u!114 &2988924834918516845
 MonoBehaviour:
   m_ObjectHideFlags: 0

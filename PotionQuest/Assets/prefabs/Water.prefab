@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 487366213388090786}
   m_Layer: 0
   m_Name: Water
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,3 +121,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+  ConsumeItem: 1

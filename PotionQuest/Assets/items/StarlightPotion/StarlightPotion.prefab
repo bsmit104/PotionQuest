@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 5157967447638090639}
   m_Layer: 8
   m_Name: StarlightPotion
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -321,6 +321,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 5118422989051783835}
+  _amount: 0.5
 --- !u!64 &110705994099381171
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -356,7 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 2c99df55c60cef54487aa0aee87545ce, type: 2}
-  CanBePickedUp: 0
+  ConsumeItem: 1
 --- !u!1 &5118422989051783835
 GameObject:
   m_ObjectHideFlags: 0
