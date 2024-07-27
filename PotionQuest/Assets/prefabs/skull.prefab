@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: skull
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7805ba3ae5162941b155a4fd8b435dd, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     - target: {fileID: 1129496810705857465, guid: b7805ba3ae5162941b155a4fd8b435dd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -126,3 +130,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 86f249f0da6658b40ba142f1489b8424, type: 2}
+  ConsumeItem: 1

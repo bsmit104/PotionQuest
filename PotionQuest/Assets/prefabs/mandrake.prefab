@@ -72,18 +72,38 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ed0181c7fdc78b143a56c4a6c61aaea6, type: 2}
+    - target: {fileID: -2054560076165190303, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
       propertyPath: m_Name
       value: mandrake
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
       propertyPath: m_TagString
-      value: Mandrake
+      value: Interactable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4647643591652987290, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6522315527816544079, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7694174927032574981, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f67a3a320847b384c86c542da1ad2163, type: 2}
+    - target: {fileID: 7753705370032899036, guid: e83120f203312d04b93434e7e1ac39d6, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119,8 +139,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.8247725, z: 1}
-  m_Center: {x: 0, y: 1.2320446, z: 0}
+  m_Size: {x: 1, y: 1.0769379, z: 1}
+  m_Center: {x: 0, y: 0.85812724, z: 0}
 --- !u!114 &7237475621355694671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,4 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: dbd84f24907187443bb0454c63547d6c, type: 2}
-  CanBePickedUp: 1
+  ConsumeItem: 1

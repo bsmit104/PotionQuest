@@ -7,6 +7,7 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public string itemName; // Name of the item
+    //public string displayName = "item";
     public Sprite itemIcon; // Icon representing the item in the UI
     //public GameObject itemPrefab;
     public int maxStack; // Maximum stack size for this item

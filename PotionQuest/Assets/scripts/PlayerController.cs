@@ -36,10 +36,13 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI textMeshPro;
     public LightManager lightManager;
 
-    private AudioSource footstepAudio;
+    //footsteps
+    public AudioSource footstepAudio;
     Vector3 lastFootstepPosition;
     public float FootStepDistance = 6;
 
+    //pickup sound
+    public AudioSource pickupAudio;
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -168,13 +171,18 @@ public class PlayerController : MonoBehaviour
                 Destroy(ItemDisplayObject);
 
                 ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
-                ItemDisplayObject.transform.rotation = Quaternion.Euler(selectedItem.offsetRotation);
+                //ItemDisplayObject.transform.rotation = Quaternion.Euler(ItemDisplay.transform.rotation.eulerAngles);
+                ItemDisplay.transform.Rotate(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
                 ItemDisplayObject.transform.parent = ItemDisplay;
-                if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+                if (ItemDisplayObject.TryGetComponent<Collider>(out Collider collider))
                 {
-                    comp.CanBePickedUp = false;
+                    collider.enabled = false;
                 }
+                // if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
+                // {
+                //     comp.CanBePickedUp = false;
+                // }
             }
             else
             {
@@ -185,21 +193,22 @@ public class PlayerController : MonoBehaviour
         }
 
         //interact with things in front of us
-        RaycastHit[] results;
-        results = Physics.RaycastAll(playerCamera.transform.position, playerCamera.transform.forward, 5);
+        //RaycastHit[] results;
+        //results = Physics.RaycastAll(playerCamera.transform.position, playerCamera.transform.forward, 5);
+        Physics.Raycast(playerCamera.transform.position,playerCamera.transform.forward, out RaycastHit hit, 5);
         textMeshPro.text = "";
-        foreach (RaycastHit hit in results)
-        {
+        //foreach (RaycastHit hit in results)
+        if (hit.transform != null){
             //show what text needs to be shown to help with interaction
             //interact with interactables!
             if (hit.transform.gameObject.tag == "Interactable")
             {
-                Debug.Log("hit interactable");
+                //Debug.Log("hit interactable");
                 GameObject obj = hit.transform.gameObject;
                 while (obj.transform.parent != null && !hit.transform.gameObject.TryGetComponent<Interactable>(out Interactable i) && obj.tag == "Interactable")
                 {
                     obj = obj.transform.parent.gameObject;
-                    Debug.Log("moving up a parent");
+                    //Debug.Log("moving up a parent");
                 }
                 if (obj.transform.gameObject.TryGetComponent<Interactable>(out Interactable interactable))
                 {
@@ -216,7 +225,7 @@ public class PlayerController : MonoBehaviour
                     {
                         interactable.RightClick();
                     }
-                    break;
+                    //break;
                 }
             }
             
@@ -260,9 +269,14 @@ public class PlayerController : MonoBehaviour
 
                 }
 
-                break;
+                //break;
             }
         }
+    }
+
+    public void PlayPickupSound()
+    {
+        pickupAudio.Play();
     }
 
     private void UpdateMass()
