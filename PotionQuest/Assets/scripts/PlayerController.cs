@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInventory inventory;
     private Item selectedItem;
+    public GameObject Hands;
     public Transform ItemDisplay;
     protected GameObject ItemDisplayObject;
 
@@ -181,6 +182,8 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(ItemDisplayObject);
 
+                Hands.SetActive(true);
+
                 ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
                 //ItemDisplayObject.transform.rotation = Quaternion.Euler(ItemDisplay.transform.rotation.eulerAngles);
                 ItemDisplay.transform.Rotate(selectedItem.offsetRotation);
@@ -198,6 +201,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Destroy(ItemDisplayObject);
+                Hands.SetActive(false);
             }
 
 

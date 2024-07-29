@@ -19,6 +19,7 @@ public class FastTravelDestination : MonoBehaviour
     
     private void OnTriggerEnter(Collider other) {
         //set that we have arrived at this destination
-        Discovered = true;
+        if (other.gameObject.tag == "Player")
+            Discovered = true;
     }
 }
