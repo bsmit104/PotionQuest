@@ -11,6 +11,8 @@ struct CustomLightingData{
     //surface attributes
     float3 albedo;
     float3 smoothness;
+
+    bool backLit;
 };
 
 //translate a [0,1] smoothness value to an exponent
@@ -24,7 +26,15 @@ float3 CustomLightHandling(CustomLightingData d, Light light)
 {
     float3 radiance = light.color * (light.distanceAttenuation * light.shadowAttenuation);
 
-    float diffuse = saturate(dot(d.normalWS, light.direction) + 0.5);
+    float diffuse = float(0);
+    if (d.backLit)
+    {
+        
+        diffuse = saturate(abs(dot(d.normalWS, light.direction) + 0.5));
+    }else
+    {
+        diffuse = saturate(dot(d.normalWS, light.direction) + 0.5);
+    }
 
     float specularDot = saturate(dot(d.normalWS, normalize(light.direction + d.viewDirectionWS)));
     float specular = pow(specularDot, GetSmoothnessPower(d.smoothness)) * diffuse;
@@ -138,7 +148,7 @@ float3 CalculateCustomLighting(CustomLightingData d)
 }
 
 void CalculateCustomLighting_float(float3 Position, float3 Normal,
-    float3 ViewDirection, float3 Albedo, float Smoothness,
+    float3 ViewDirection, float3 Albedo, float Smoothness, bool BackSideLit,
     out float3 Color)
 {
     CustomLightingData d;
@@ -147,6 +157,7 @@ void CalculateCustomLighting_float(float3 Position, float3 Normal,
     d.viewDirectionWS = ViewDirection;
     d.albedo = Albedo;
     d.smoothness = Smoothness;
+    d.backLit = BackSideLit;
     
     //shadows
     #ifdef SHADERGRAPH_PREVIEW

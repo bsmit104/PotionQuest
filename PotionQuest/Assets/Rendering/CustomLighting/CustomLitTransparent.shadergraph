@@ -425,6 +425,20 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BooleanMaterialSlot",
+    "m_ObjectId": "507da748c8d04a1fbf6bb3349822b2da",
+    "m_Id": -1062987887,
+    "m_DisplayName": "BackSideLit",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_BackSideLit",
+    "m_StageCapability": 3,
+    "m_Value": false,
+    "m_DefaultValue": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "50b52a9ef33948ea96301120684e2f7b",
     "m_Id": 0,
@@ -1018,6 +1032,9 @@
             "m_Id": "e094d23dcf6b46c2acf3c91f9fb8cc0d"
         },
         {
+            "m_Id": "507da748c8d04a1fbf6bb3349822b2da"
+        },
+        {
             "m_Id": "4fff2608aa1b44cfb1134d16154fd5f7"
         }
     ],
@@ -1034,13 +1051,15 @@
         "76e29f9f-0143-421b-a2b4-230fd771a5ba",
         "0e4fff96-f978-4792-a856-3d46853f9cb1",
         "254d5aa7-652a-41b9-8ce3-e76a589fbf24",
-        "40ae9339-56fe-4083-941c-384ecb15dfa7"
+        "40ae9339-56fe-4083-941c-384ecb15dfa7",
+        "026e7964-59b5-416d-82ac-dea6c29b7925"
     ],
     "m_PropertyIds": [
         -2122359895,
         -1099141181,
         715932505,
-        -372585320
+        -372585320,
+        -1062987887
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
