@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource pickupAudio;
 
     public bool Respawn = false;
+    private bool Teleported = false;
     public float WaterHeight = 48f;
     public Vector3 WellPosition;
     void Start()
@@ -81,7 +82,13 @@ public class PlayerController : MonoBehaviour
         return !characterController.isGrounded;
     }
 
-
+    public void Teleport(Vector3 location)
+    {
+        characterController.enabled = false;
+        Respawn = false;
+        transform.position = location;
+        Teleported = true;
+    }
     ///////////////////////////////
 
     void Update()
@@ -105,6 +112,11 @@ public class PlayerController : MonoBehaviour
         }else
         {
             characterController.enabled = true;
+        }
+        if (Teleported)
+        {
+            Teleported = false;
+            return;
         }
 
         // Movement Logic
@@ -156,40 +168,8 @@ public class PlayerController : MonoBehaviour
         
         //check to see whether or not we are in shadowwwwww
         //assume we are
-        inLight = false;
-        foreach (SafeLight light in lightManager.lights)
-        {
-            if (light.type == LightType.PointLight)
-            {
-                //point light
-                //get the range of the point light, and exlude it if we are past that
-                Vector3 ToLight = light.gameObject.transform.position - transform.position;
-
-                if (ToLight.sqrMagnitude <= light.light.range * light.light.range)
-                {
-                    //the distance to the light is lesser than the lights range, so lets scan for anything blocking the light
-                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 8, QueryTriggerInteraction.Ignore))
-                    {
-                        //something is blocking the light.
-                        inLight = true;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                //directional or other
-                //just raycast at the light direction and see if it hits something
-                Vector3 LightDirection = light.gameObject.transform.forward;
-                //Debug.DrawRay(transform.position, -LightDirection, Color.yellow, 1);
-                if (!Physics.Raycast(transform.position - LightDirection, -LightDirection, 300))
-                {
-                    Debug.Log("lit from sun");
-                    inLight = true;
-                    break;
-                }
-            }
-        }
+        inLight = GetLightStatus();
+        
         
 
         //display your selected item in your hands
@@ -319,5 +299,44 @@ public class PlayerController : MonoBehaviour
                 newMass += stack.item.itemWeight * stack.stackSize;
         }
         GetComponent<Rigidbody>().mass = newMass;
+    }
+
+    public bool GetLightStatus()
+    {
+        bool lit = false;
+        foreach (SafeLight light in lightManager.lights)
+        {
+            if (light.type == LightType.PointLight)
+            {
+                //point light
+                //get the range of the point light, and exlude it if we are past that
+                Vector3 ToLight = light.gameObject.transform.position - transform.position;
+
+                if (ToLight.sqrMagnitude <= light.light.range * light.light.range)
+                {
+                    //the distance to the light is lesser than the lights range, so lets scan for anything blocking the light
+                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 8, QueryTriggerInteraction.Ignore))
+                    {
+                        //something is blocking the light.
+                        lit = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                //directional or other
+                //just raycast at the light direction and see if it hits something
+                Vector3 LightDirection = light.gameObject.transform.forward;
+                //Debug.DrawRay(transform.position, -LightDirection, Color.yellow, 1);
+                if (!Physics.Raycast(transform.position - LightDirection, -LightDirection, 300))
+                {
+                    Debug.Log("lit from sun");
+                    lit = true;
+                    break;
+                }
+            }
+        }
+        return lit;
     }
 }

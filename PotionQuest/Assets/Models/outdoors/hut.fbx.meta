@@ -7,8 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Pillow
+    second: {fileID: 2100000, guid: 9b273e20364057b469ec37d5222fad32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: TentMaterial
     second: {fileID: 2100000, guid: 8d6f09d8b4445354aa6f3f1548ce7457, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wood
+    second: {fileID: 2100000, guid: 23b79bc4516dc724ba1d8022a8e82fd3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

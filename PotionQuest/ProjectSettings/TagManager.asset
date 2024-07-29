@@ -8,6 +8,9 @@ TagManager:
   - LightManager
   - Mandrake
   - Interactable
+  - FastTravelManager
+  - FastTravelDestination
+  - Emitting
   layers:
   - Default
   - TransparentFX

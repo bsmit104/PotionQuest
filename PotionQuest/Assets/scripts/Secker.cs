@@ -9,10 +9,15 @@ public class Secker : MonoBehaviour
 {
     //public CharacterController cc;
     private PlayerController player;
+    private LightManager lightManager;
     public Transform pathingTarget;
     
     private Vector3 targetPosition;
     private bool chasingPlayer = false;
+    private bool inLight = false;
+    //stays up to date on what direction the light is, if we are lit
+    private Vector3 directionToLight = Vector3.up;
+    public bool canKill = true;
 
     private Vector3 roamPosition;
     public float roamDistance = 50.0f;
@@ -20,7 +25,7 @@ public class Secker : MonoBehaviour
 
     public NavMeshAgent agent;
     private Rigidbody rb;
-    public float MoveSpeed = 7;
+    public float MoveSpeed = 10;
 
     public AudioSource footstepSoundSource;
     public AudioClip footstepSound;
@@ -83,6 +88,7 @@ public class Secker : MonoBehaviour
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
+        lightManager = GameObject.FindGameObjectWithTag("LightManager").GetComponent<LightManager>();
         //previousPosition = pathingTarget.transform.position;
         targetPosition = transform.position;
         roamPosition = transform.parent.position;
@@ -106,12 +112,36 @@ public class Secker : MonoBehaviour
         
     }
 
+    
+
     private void Update() {
+        //see if we are in light
+        inLight = GetLightStatus();
+
+        agent.baseOffset = 2;
+
         //Secker AI and movement
-        //first, lets see if the player is in light.
-        agent.speed = 10;
-        if (player.inLight)
+        //first, 
+        agent.speed = MoveSpeed;
+        if (inLight) // we see if we are in light first, and if we are we curl up
         {
+            //move body to the ground to curl up
+            agent.baseOffset = 0;
+            //make it so we don't kill the player
+            canKill = false;
+            //slow down the secker
+            agent.speed = MoveSpeed / 2;
+            //try to move away from light
+            if (NavMesh.SamplePosition(transform.position - (directionToLight * 5), out NavMeshHit hit, 25, NavMesh.AllAreas))
+            {
+                targetPosition = hit.position;
+                agent.SetDestination(targetPosition);
+                //Debug.Log("Roaming to location " + targetPosition);
+            }
+
+        }else if (player.inLight) //lets see if the player is in light.
+        {
+
             //if we are close to the current target position, then get a new roam position
             if (agent.pathStatus == NavMeshPathStatus.PathInvalid || chasingPlayer || (targetPosition - transform.position).sqrMagnitude < 5.0f)
             {
@@ -145,31 +175,6 @@ public class Secker : MonoBehaviour
             chasingPlayer = true;
             
         }
-        
-        //temp testing controls
-        //aka remote controller hehe
-        movement.x = Input.GetAxis("Horizontal") * MoveSpeed;
-        movement.z = Input.GetAxis("Vertical") * MoveSpeed;
-
-        Vector3 localDirection = movement.z * transform.forward + movement.x * transform.right;
-        localDirection.y = movement.y;
-        
-        movement = localDirection;
-        
-        
-        
-        // if (!agent.isGrounded)
-        // {
-        //     movement.y += Physics.gravity.y * Time.deltaTime;
-        // }
-        // else
-        // {
-        //     movement.y = 0;
-        // }
-
-        //agent.Move(movement);
-
-        //rb.velocity = new Vector3(movement.x,rb.velocity.y, movement.z);
         
         RaycastHit hitInfo;
 
@@ -250,5 +255,47 @@ public class Secker : MonoBehaviour
         }
 
         
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Player")
+        {
+            if (canKill)
+            {
+                player.Respawn = true;
+            }
+        }
+    }
+
+    
+    public bool GetLightStatus()
+    {
+        bool lit = false;
+        foreach (SafeLight light in lightManager.lights)
+        {
+            if (light.type == LightType.PointLight)
+            {
+                //point light
+                //get the range of the point light, and exlude it if we are past that
+                Vector3 ToLight = light.gameObject.transform.position - transform.position;
+
+                if (ToLight.sqrMagnitude <= light.light.range * light.light.range)
+                {
+                    //the distance to the light is lesser than the lights range, so lets scan for anything blocking the light
+                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 8, QueryTriggerInteraction.Ignore))
+                    {
+                        //something is blocking the light.
+                        directionToLight = ToLight;
+                        lit = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                //ignore directional light for secker. can't avoid the damn sun
+            }
+        }
+        return lit;
     }
 }
