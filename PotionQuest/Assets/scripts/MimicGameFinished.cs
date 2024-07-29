@@ -48,7 +48,8 @@ public class MimicGameFinished : MonoBehaviour
 
             //stage 1: scale tongue
             //point tongue at player
-            Tongue.transform.LookAt(PlayerController.transform);
+            if (lerp >= 1)
+                Tongue.transform.LookAt(PlayerController.transform);
             Tongue.transform.localScale = Vector3.Lerp(tongueStartScale, tongueEndScale, GetLerpStage(1));
 
             //stage 2: pull player
