@@ -115,6 +115,12 @@ public class Secker : MonoBehaviour
     
 
     private void Update() {
+        //respawn if under water
+        if (transform.position.y <= 48)
+        {
+            transform.position = roamPosition;
+            rb.position = roamPosition;
+        }
         //see if we are in light
         inLight = GetLightStatus();
 
