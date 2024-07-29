@@ -5,7 +5,9 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject GameFinishedUI;
     public PlayerController playerController;
+    public GameObject Book;
 
     private bool isPaused = false;
 
@@ -30,6 +32,15 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         playerController.LockCursor();
         isPaused = false;
+    }
+
+    public void GameFinished()
+    {
+        GameFinishedUI.SetActive(true);
+        Book.SetActive(false);
+        Time.timeScale = 0f;
+        playerController.UnlockCursor();
+        isPaused = true;
     }
 
     void Pause()

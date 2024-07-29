@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public float jumpPower = 7f;
     public float gravity = 50f;
 
+    public bool inLight = false;
+
     public float lookSpeed = 1.5f;
     private float lookXLimit = 85f;
 
@@ -43,6 +45,10 @@ public class PlayerController : MonoBehaviour
 
     //pickup sound
     public AudioSource pickupAudio;
+
+    public bool Respawn = false;
+    public float WaterHeight = 48f;
+    public Vector3 WellPosition;
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -74,10 +80,32 @@ public class PlayerController : MonoBehaviour
         // This method checks if the player is currently jumping
         return !characterController.isGrounded;
     }
+
+
     ///////////////////////////////
 
     void Update()
     {
+        //respawn if you touch the water
+        if (transform.position.y <= WaterHeight)
+        {
+            Respawn = true;
+        }
+
+        //if respawn, so the player can be launched at the start of the game and other things can cause a respawn
+        if ( Respawn)
+        {
+            characterController.enabled = false;
+            Respawn = false;
+            transform.position = WellPosition;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 40, 30);
+            moveDirection.z = 10;
+            moveDirection.y = 40;
+            return;
+        }else
+        {
+            characterController.enabled = true;
+        }
 
         // Movement Logic
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -117,7 +145,7 @@ public class PlayerController : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
 
         // Camera Logic
-        if (canMove)
+        //if (canMove)
         {
             rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
@@ -125,8 +153,10 @@ public class PlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
 
-        bool inLight = false;
+        
         //check to see whether or not we are in shadowwwwww
+        //assume we are
+        inLight = false;
         foreach (SafeLight light in lightManager.lights)
         {
             if (light.type == LightType.PointLight)
@@ -138,10 +168,11 @@ public class PlayerController : MonoBehaviour
                 if (ToLight.sqrMagnitude <= light.light.range * light.light.range)
                 {
                     //the distance to the light is lesser than the lights range, so lets scan for anything blocking the light
-                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 7, QueryTriggerInteraction.Ignore))
+                    if (!Physics.Raycast(transform.position, ToLight.normalized, ToLight.magnitude, 8, QueryTriggerInteraction.Ignore))
                     {
                         //something is blocking the light.
                         inLight = true;
+                        break;
                     }
                 }
             }
@@ -150,16 +181,16 @@ public class PlayerController : MonoBehaviour
                 //directional or other
                 //just raycast at the light direction and see if it hits something
                 Vector3 LightDirection = light.gameObject.transform.forward;
-                if (!Physics.Raycast(transform.position, -LightDirection, 50, 7, QueryTriggerInteraction.Ignore))
+                //Debug.DrawRay(transform.position, -LightDirection, Color.yellow, 1);
+                if (!Physics.Raycast(transform.position - LightDirection, -LightDirection, 300))
                 {
+                    Debug.Log("lit from sun");
                     inLight = true;
+                    break;
                 }
             }
         }
-        if (inLight)
-        {
-            // Debug.Log("We are in light!");
-        }
+        
 
         //display your selected item in your hands
         if (selectedItem != inventory.items[inventory.selectedSlot].item)

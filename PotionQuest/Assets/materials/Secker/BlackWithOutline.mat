@@ -51,12 +51,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelPower: 0.3
-    - _OutlineMultiplier: 1
+    - _FresnelPower: 5
+    - _OutlineMultiplier: 2
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
     - _MainColor: {r: 0, g: 0, b: 0, a: 0}
-    - _OutlineColor: {r: 0.81947374, g: 0, b: 1, a: 0}
+    - _OutlineColor: {r: 1, g: 0, b: 0.32682896, a: 0.5019608}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
