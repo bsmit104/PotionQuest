@@ -26,10 +26,10 @@ public class Wobble : MonoBehaviour
     }
     private void Update()
     {
-        time += Time.deltaTime;
+        time += Time.unscaledDeltaTime;
         // decrease wobble over time
-        wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, Time.deltaTime * (Recovery));
-        wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, Time.deltaTime * (Recovery));
+        wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, Time.unscaledDeltaTime * (Recovery));
+        wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, Time.unscaledDeltaTime * (Recovery));
 
         // make a sine wave of the decreasing wobble
         pulse = 2 * Mathf.PI * WobbleSpeed;
@@ -41,7 +41,7 @@ public class Wobble : MonoBehaviour
         rend.material.SetFloat("_WobbleZ", wobbleAmountZ);
 
         // velocity
-        velocity = (lastPos - transform.position) / Time.deltaTime;
+        velocity = (lastPos - transform.position) / Time.unscaledDeltaTime;
         angularVelocity = transform.rotation.eulerAngles - lastRot;
 
 

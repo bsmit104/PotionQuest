@@ -82,7 +82,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 759
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 7309411378560705484}
   - component: {fileID: 8014443906403656357}
   - component: {fileID: 2708971493029586180}
-  - component: {fileID: 8907007330955862245}
+  - component: {fileID: 3315161707309410122}
   - component: {fileID: 110705994099381171}
   - component: {fileID: 5157967447638090639}
   m_Layer: 8
@@ -308,7 +308,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8907007330955862245
+--- !u!114 &3315161707309410122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,11 +317,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3276470144007963922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 433ad285320f97346917fd37510cc986, type: 3}
+  m_Script: {fileID: 11500000, guid: 738e6cd73d648eb47810ec349d0948dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   potionInside: {fileID: 5118422989051783835}
-  _amount: 0.5
+  _amount: 1
+  potionLight: {fileID: 5702916796753308053}
 --- !u!64 &110705994099381171
 MeshCollider:
   m_ObjectHideFlags: 0

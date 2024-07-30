@@ -372,6 +372,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: lavendercluster
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
+      propertyPath: m_TagString
+      value: Interactable
+      objectReference: {fileID: 0}
     - target: {fileID: 984364454229204449, guid: dbcec2c1ecdb9d140b99d4865d736477, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -703,5 +707,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 79b6f691108908544bff143ad2e31fdf, type: 2}
-  CanBePickedUp: 1
-  destroyOnCollect: 0
+  ConsumeItem: 1

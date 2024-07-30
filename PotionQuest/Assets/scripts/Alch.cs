@@ -2,20 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Ingredient
-{
-    public Item item;
-    public int amount;
-}
 
-[System.Serializable]
-public class Recipe
-{
-    public Item result;
-
-    public List<Ingredient> ingredients;
-}
 
 public class Alch : MonoBehaviour
 {
@@ -23,8 +10,7 @@ public class Alch : MonoBehaviour
 
     public Inventory inventory;
 
-    [SerializeField]
-    public List<Recipe> Recipes; // List of all possible craftable items
+    public RecipeSet recipeSet;
 
     Item lastCraftedItem = null;
 
@@ -51,7 +37,7 @@ public class Alch : MonoBehaviour
 
         Debug.Log("it was the result slot!");
         //result was taken, so lets remove the ingredients
-        var Recipe = Recipes.Find(recipe => recipe.result == lastCraftedItem);
+        var Recipe = recipeSet.Recipes.Find(recipe => recipe.result == lastCraftedItem);
 
         if (Recipe.result != null)
         {
@@ -79,6 +65,7 @@ public class Alch : MonoBehaviour
             {
                 inventory.items[4].item = craftedItem;
                 inventory.items[4].stackSize = 1;
+                inventory.items[4].Value = 1;
             }
             else
             {
@@ -121,7 +108,7 @@ public class Alch : MonoBehaviour
             }   
         }
 
-        foreach (var recipe in Recipes)
+        foreach (var recipe in recipeSet.Recipes)
         {
             bool missingIngredient = false;
             foreach(Ingredient ingredient in recipe.ingredients)

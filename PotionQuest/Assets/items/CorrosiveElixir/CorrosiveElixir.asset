@@ -17,6 +17,6 @@ MonoBehaviour:
   maxStack: 1
   itemWeight: 1
   itemObject: {fileID: 7186172617858246354, guid: 6c6dec3252fa10f42952fb0207947391, type: 3}
-  offsetPosition: {x: 0, y: 0.25, z: 0}
+  offsetPosition: {x: 0, y: 1.5, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0}
   offsetScale: 1

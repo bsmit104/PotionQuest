@@ -13,9 +13,12 @@ public class ItemStack
     {
         item = _item;
         stackSize = _count;
+        Value = 1;
     }
     public Item item;
     public int stackSize;
+    //fck it, value for potion amount
+    public float Value;
 }
 
 public class Inventory : MonoBehaviour
@@ -60,7 +63,7 @@ public class Inventory : MonoBehaviour
     }
 
     //returns how many were actually added to the inventory.
-    public int AddItem(Item itemToAdd, int quantity = 1)
+    public int AddItem(Item itemToAdd, int quantity = 1, float Value = 1)
     {
         if (quantity <= 0) return 0;
         int remaining = quantity;
@@ -76,6 +79,7 @@ public class Inventory : MonoBehaviour
                 int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
                 int toAdd = Mathf.Min(quantity, availableSpace);
                 itemStack.stackSize += toAdd;
+                itemStack.Value = Value;
                 remaining -= toAdd;
                 if (remaining == 0)
                 {
@@ -94,6 +98,7 @@ public class Inventory : MonoBehaviour
                 remaining -= toAdd;
                 items[i].item = itemToAdd;
                 items[i].stackSize = toAdd;
+                items[i].Value = Value;
                 if (remaining == 0)
                 {
                     OnInventoryChanged?.Invoke();
@@ -107,7 +112,7 @@ public class Inventory : MonoBehaviour
         return amountRemoved;
     }
 
-    public int AddItemToSlot(int slotIndex, Item itemToAdd, int quantity = 1)
+    public int AddItemToSlot(int slotIndex, Item itemToAdd, int quantity = 1, float Value = 1)
     {
         if (slotIndex < 0 || slotIndex > items.Length) return 0;
         if (quantity <= 0) return 0;
@@ -123,6 +128,7 @@ public class Inventory : MonoBehaviour
                 int availableSpace = itemStack.item.maxStack - itemStack.stackSize;
                 int toAdd = Mathf.Min(quantity, availableSpace);
                 itemStack.stackSize += toAdd;
+                itemStack.Value = Value;
                 remaining -= toAdd;
             }else
             {
@@ -136,6 +142,7 @@ public class Inventory : MonoBehaviour
             remaining -= toAdd;
             items[slotIndex].item = itemToAdd;
             items[slotIndex].stackSize = toAdd;
+            items[slotIndex].Value = Value;
             if (remaining == 0)
             {
                 OnInventoryChanged?.Invoke();
@@ -208,7 +215,7 @@ public class Inventory : MonoBehaviour
             items[slot].stackSize = 0;
         }
         OnInventoryChanged?.Invoke();
-        Debug.Log("invoked!");
+        //Debug.Log("invoked!");
         OnInventoryItemRemoved?.Invoke(slot);
     }
 }

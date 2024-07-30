@@ -165,6 +165,7 @@ public class InventoryUI : MonoBehaviour
                     {
                         Item itemToMove = inventory.items[draggedItemIndex].item;
                         int amount = inventory.items[draggedItemIndex].stackSize;
+                        float valueToMove = inventory.items[draggedItemIndex].Value;
                         // Try to add the item to the chest
                         //check if we are over a specific slot, and if we are put it in at that slot
                         int otherInvIndex = -1;
@@ -177,36 +178,36 @@ public class InventoryUI : MonoBehaviour
                                 break;
                             }
                         }
-                        Debug.Log("Trying to place item into slot: " + otherInvIndex);
+                        //Debug.Log("Trying to place item into slot: " + otherInvIndex);
                         if (otherInvIndex >= 0 && otherInvIndex < otherUI.inventory.items.Length)
                         {
                             //we found a slot to put into, so lets put it in
-                            int amountAdded = otherUI.inventory.AddItemToSlot(otherInvIndex, itemToMove, amount);
+                            int amountAdded = otherUI.inventory.AddItemToSlot(otherInvIndex, itemToMove, amount, valueToMove);
                             if (amountAdded == amount)
                             {
-                                Debug.Log("All Items added to chest");
+                                //Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
                                 inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                                 
                             }
                             else
                             {
-                                Debug.Log("only added " + amountAdded + " items");
+                                //Debug.Log("only added " + amountAdded + " items");
                                 inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                         }else
                         {
                             //there was no slot, so we just add it to the inventory
-                            int amountAdded = otherUI.inventory.AddItem(itemToMove, amount);
+                            int amountAdded = otherUI.inventory.AddItem(itemToMove, amount, valueToMove);
                             if (amountAdded == amount)
                             {
-                                Debug.Log("All Items added to chest");
+                                //Debug.Log("All Items added to chest");
                                 // Remove the item from inventory if added successfully
                                 inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                             else
                             {
-                                Debug.Log("only added " + amountAdded + " items");
+                                //Debug.Log("only added " + amountAdded + " items");
                                 inventory.RemoveItemFromSlot(draggedItemIndex, amountAdded);
                             }
                         }
@@ -217,7 +218,7 @@ public class InventoryUI : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Dragged item not over chestUI slotPanel");
+                    //Debug.Log("Dragged item not over chestUI slotPanel");
                 }
             }
             

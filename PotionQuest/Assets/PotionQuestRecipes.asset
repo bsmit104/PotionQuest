@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077f0858c7778ed46b299ca789cc3c30, type: 3}
+  m_Name: PotionQuestRecipes
+  m_EditorClassIdentifier: 
+  Recipes:
+  - result: {fileID: 11400000, guid: 011cd3d8583908445ae6b5c46f376989, type: 2}
+    ingredients:
+    - item: {fileID: 11400000, guid: c2a400da6badb934a8b625ad17493684, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 86f249f0da6658b40ba142f1489b8424, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: dbd84f24907187443bb0454c63547d6c, type: 2}
+      amount: 1
+  - result: {fileID: 11400000, guid: aa4b56dbfe4364b44aa7259a181245a9, type: 2}
+    ingredients:
+    - item: {fileID: 11400000, guid: 619eef3749490704cb0d71424a58fcbe, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 7124848e311dcf6438e5b6e273abe4bc, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+      amount: 1
+  - result: {fileID: 11400000, guid: ea7e5bbae4e873046967671b8cef7ddc, type: 2}
+    ingredients:
+    - item: {fileID: 11400000, guid: ef8d222a25d96b64ea1a305fd8ed3270, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+      amount: 1
+  - result: {fileID: 11400000, guid: 2c99df55c60cef54487aa0aee87545ce, type: 2}
+    ingredients:
+    - item: {fileID: 11400000, guid: 648f017db7178e14da471c8dddb44d55, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 79b6f691108908544bff143ad2e31fdf, type: 2}
+      amount: 1
+  - result: {fileID: 11400000, guid: 1c875f331f90b8043962caca9cdd3455, type: 2}
+    ingredients:
+    - item: {fileID: 11400000, guid: 7c7af9ae699419447a0662d0889ae311, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: ef8d222a25d96b64ea1a305fd8ed3270, type: 2}
+      amount: 1

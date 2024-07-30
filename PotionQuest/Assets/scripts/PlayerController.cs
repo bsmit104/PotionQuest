@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     private bool Teleported = false;
     public float WaterHeight = 48f;
     public Vector3 WellPosition;
+    
+    private bool HoldingStarlight = false;
+    public float StarlightPotionDuration = 400.0f;
+    public Item EmptyStarlight;
     void Start()
     {
         inventory.OnInventoryChanged += UpdateMass;
@@ -94,6 +98,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //remove fluid from starlight. slowly.
+        if (HoldingStarlight)
+        {
+            inventory.items[inventory.selectedSlot].Value -= (1.0f / StarlightPotionDuration) * Time.deltaTime;
+            StarlightPotion potion = ItemDisplayObject.GetComponent<StarlightPotion>();
+            potion.SetAmount(inventory.items[inventory.selectedSlot].Value);
+            if (inventory.items[inventory.selectedSlot].Value <= 0)
+            {
+                //potion ran out
+                inventory.RemoveItemFromSlot(inventory.selectedSlot, 1);
+                inventory.AddItemToSlot(inventory.selectedSlot, EmptyStarlight, 1);
+            }
+        }
         //respawn if you touch the water
         if (transform.position.y <= WaterHeight)
         {
@@ -171,7 +188,23 @@ public class PlayerController : MonoBehaviour
         //assume we are
         inLight = GetLightStatus();
         
-        
+        //see if we want to drop held item
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            //drop held item
+            if (inventory.items[inventory.selectedSlot] != null)
+            {
+                GameObject obj = Instantiate(inventory.items[inventory.selectedSlot].item.itemObject, this.transform.position + new Vector3(0, -0.9f, 0), this.transform.rotation);
+                obj.transform.Rotate(inventory.items[inventory.selectedSlot].item.offsetRotation);
+                if (obj.TryGetComponent<Potion>(out Potion pot))
+                {
+                    pot.SetAmount(inventory.items[inventory.selectedSlot].Value);
+                    pot.onGround = true;
+                }
+                //remove the item from inv now that it is dropped
+                inventory.RemoveItemFromSlot(inventory.selectedSlot, 1);
+            }
+        }
 
         //display your selected item in your hands
         if (selectedItem != inventory.items[inventory.selectedSlot].item)
@@ -181,17 +214,28 @@ public class PlayerController : MonoBehaviour
             if (selectedItem != null)
             {
                 Destroy(ItemDisplayObject);
+                HoldingStarlight = false;
 
                 Hands.SetActive(true);
 
-                ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position + selectedItem.offsetPosition, ItemDisplay.transform.rotation);
+                ItemDisplayObject = Instantiate(selectedItem.itemObject, ItemDisplay.transform.position, ItemDisplay.transform.rotation);
                 //ItemDisplayObject.transform.rotation = Quaternion.Euler(ItemDisplay.transform.rotation.eulerAngles);
-                ItemDisplay.transform.Rotate(selectedItem.offsetRotation);
+                ItemDisplayObject.transform.Rotate(selectedItem.offsetRotation);
                 ItemDisplayObject.transform.localScale *= selectedItem.offsetScale;
                 ItemDisplayObject.transform.parent = ItemDisplay;
+                ItemDisplayObject.transform.localPosition += selectedItem.offsetPosition;
                 if (ItemDisplayObject.TryGetComponent<Collider>(out Collider collider))
                 {
                     collider.enabled = false;
+                }
+                if (ItemDisplayObject.TryGetComponent<Potion>(out Potion potion))
+                {
+                    //we are displaying a potion. we need to render how much of the potion is left and tell the script the amount
+                    potion.SetAmount(inventory.items[inventory.selectedSlot].Value);
+                    if (inventory.items[inventory.selectedSlot].item.itemName == "StarlightPotion")
+                    {
+                        HoldingStarlight = true;
+                    }
                 }
                 // if (ItemDisplayObject.TryGetComponent<ItemPickup>(out ItemPickup comp))
                 // {
@@ -201,6 +245,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 Destroy(ItemDisplayObject);
+                HoldingStarlight = false;
                 Hands.SetActive(false);
             }
 
@@ -256,7 +301,7 @@ public class PlayerController : MonoBehaviour
                         //see if we just pressed E, and if we did then place 
                         if (Input.GetKeyDown(KeyCode.E))
                         {
-                            int amountAdded = display.inventory.AddItemToSlot(display.slotIndex, inventory.items[inventory.selectedSlot].item, inventory.items[inventory.selectedSlot].stackSize);
+                            int amountAdded = display.inventory.AddItemToSlot(display.slotIndex, inventory.items[inventory.selectedSlot].item, inventory.items[inventory.selectedSlot].stackSize, inventory.items[inventory.selectedSlot].Value);
                             inventory.RemoveItemFromSlot(inventory.selectedSlot, amountAdded);
                         }
                         if (inventory.items[inventory.selectedSlot].item != null)
@@ -270,7 +315,7 @@ public class PlayerController : MonoBehaviour
                     {
                         //there is already an item there, so try to take the item
                         ItemStack stack = display.inventory.items[display.slotIndex];
-                        int amountAdded = inventory.AddItemToSlot(inventory.selectedSlot, stack.item, stack.stackSize);
+                        int amountAdded = inventory.AddItemToSlot(inventory.selectedSlot, stack.item, stack.stackSize, stack.Value);
                         if (amountAdded != 0)
                         {
                             display.inventory.RemoveItemFromSlot(display.slotIndex, amountAdded);

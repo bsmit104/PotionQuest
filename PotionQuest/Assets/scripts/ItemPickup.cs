@@ -24,11 +24,17 @@ public class ItemPickup : Interactable
 
     private void Activate()
     {
-        Debug.Log("trying to add item to inventory");
-        int added = playerInventory.AddItemToSlot(playerInventory.selectedSlot, item, 1);
+        //Debug.Log("trying to add item to inventory");
+        float value = 1;
+        if (TryGetComponent<Potion>(out Potion pot))
+        {
+            value = pot.Amount;
+        }
+
+        int added = playerInventory.AddItemToSlot(playerInventory.selectedSlot, item, 1, value);
         if (added == 0)
         {
-            added = playerInventory.AddItem(item, 1);
+            added = playerInventory.AddItem(item, 1, value);
             if (added != 0)
             {
                 //add item worked

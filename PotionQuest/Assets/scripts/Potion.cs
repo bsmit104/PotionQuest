@@ -6,11 +6,13 @@ using UnityEngine;
 public class Potion : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject potionInside;
+    protected GameObject potionInside = null;
     protected Renderer potionRenderer;
 
     [SerializeField]
     protected float _amount = 0.5f;
+
+    public bool onGround = false;
 
     public float Amount {
         get { return _amount;  }
@@ -21,17 +23,31 @@ public class Potion : MonoBehaviour
     {
         MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
         materialPropertyBlock.SetFloat("_FillPercent", _amount);
-        potionRenderer = potionInside.GetComponent<Renderer>();
-        potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        if (potionInside != null)
+        {
+            potionRenderer = potionInside.GetComponent<Renderer>();
+            potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        }
     }
 
-    public void SetAmount(float percent)
+    private void Awake() {
+        MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
+        materialPropertyBlock.SetFloat("_FillPercent", _amount);
+        if (potionInside != null)
+        {
+            potionRenderer = potionInside.GetComponent<Renderer>();
+            potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        }    
+    }
+
+    public virtual void SetAmount(float percent)
     {
         _amount = percent;
 
         MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
         materialPropertyBlock.SetFloat("_FillPercent", _amount);
-        potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        if (potionInside != null)
+            potionRenderer.SetPropertyBlock(materialPropertyBlock);
     
         //potionRenderer.material.SetFloat("_FillPercent", percent);
     }
@@ -41,9 +57,12 @@ public class Potion : MonoBehaviour
         _amount += amount;
         if (_amount > 1) _amount = 1;
         if (_amount < 0) _amount = 0;
-        MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
-        materialPropertyBlock.SetFloat("_FillPercent", _amount);
-        potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        if (potionInside != null)
+        {
+            MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
+            materialPropertyBlock.SetFloat("_FillPercent", _amount);
+            potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        }
     }
 
     public void Remove(float amount)
@@ -51,16 +70,11 @@ public class Potion : MonoBehaviour
         _amount -= amount;
         if (_amount > 1) _amount = 1;
         if (_amount < 0) _amount = 0;
-        MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
-        materialPropertyBlock.SetFloat("_FillPercent", _amount);
-        potionRenderer.SetPropertyBlock(materialPropertyBlock);
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Amount = 0.1f;
+        if (potionInside != null)
+        {
+            MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
+            materialPropertyBlock.SetFloat("_FillPercent", _amount);
+            potionRenderer.SetPropertyBlock(materialPropertyBlock);
+        }
     }
 }
