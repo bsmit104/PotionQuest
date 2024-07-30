@@ -206,7 +206,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   potionInside: {fileID: 260023305270150383}
   _amount: 0.5
+  onGround: 0
 --- !u!1 &7291334485003412312
 GameObject:
   m_ObjectHideFlags: 0

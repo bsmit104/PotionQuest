@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   potionInside: {fileID: 6457297647919163723}
   _amount: 0.5
+  onGround: 0
 --- !u!64 &6341992227321237780
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -138,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4588595429a9b244bb8fffb714fc0b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 2c99df55c60cef54487aa0aee87545ce, type: 2}
+  item: {fileID: 11400000, guid: 1c875f331f90b8043962caca9cdd3455, type: 2}
   ConsumeItem: 1
 --- !u!1 &5903148955774477174
 GameObject:

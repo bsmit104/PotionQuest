@@ -374,16 +374,18 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //directional or other
-                //just raycast at the light direction and see if it hits something
-                Vector3 LightDirection = light.gameObject.transform.forward;
-                //Debug.DrawRay(transform.position, -LightDirection, Color.yellow, 1);
-                if (!Physics.Raycast(transform.position - LightDirection, -LightDirection, 300))
-                {
-                    Debug.Log("lit from sun");
-                    lit = true;
-                    break;
-                }
+                //we are going to ignore directional light for now
+                
+                // //directional or other
+                // //just raycast at the light direction and see if it hits something
+                // Vector3 LightDirection = light.gameObject.transform.forward;
+                // //Debug.DrawRay(transform.position, -LightDirection, Color.yellow, 1);
+                // if (!Physics.Raycast(transform.position - LightDirection, -LightDirection, 300))
+                // {
+                //     Debug.Log("lit from sun");
+                //     lit = true;
+                //     break;
+                // }
             }
         }
         return lit;

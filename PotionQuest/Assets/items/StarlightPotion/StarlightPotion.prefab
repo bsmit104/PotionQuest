@@ -322,6 +322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   potionInside: {fileID: 5118422989051783835}
   _amount: 1
+  onGround: 0
   potionLight: {fileID: 5702916796753308053}
 --- !u!64 &110705994099381171
 MeshCollider:
@@ -338,7 +339,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5

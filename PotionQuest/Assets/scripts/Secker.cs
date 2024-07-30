@@ -25,7 +25,7 @@ public class Secker : MonoBehaviour
 
     public NavMeshAgent agent;
     private Rigidbody rb;
-    public float MoveSpeed = 10;
+    public float MoveSpeed = 7;
 
     public AudioSource footstepSoundSource;
     public AudioClip footstepSound;
@@ -86,6 +86,8 @@ public class Secker : MonoBehaviour
 
     List<LegData> Legs = new List<LegData>();
 
+    private float PathTime = 0;
+
     private void Start() {
         rb = GetComponent<Rigidbody>();
         lightManager = GameObject.FindGameObjectWithTag("LightManager").GetComponent<LightManager>();
@@ -94,6 +96,7 @@ public class Secker : MonoBehaviour
         roamPosition = transform.parent.position;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         agent.SetDestination(targetPosition);
+        PathTime = Time.time;
 
         //note:
         //global targets is needed so the limbs stay while the body moves
@@ -112,7 +115,7 @@ public class Secker : MonoBehaviour
         
     }
 
-    
+    bool NeedNewPosition = true;
 
     private void Update() {
         //respawn if under water
@@ -120,6 +123,7 @@ public class Secker : MonoBehaviour
         {
             transform.position = roamPosition;
             rb.position = roamPosition;
+            NeedNewPosition = true;
         }
         //see if we are in light
         inLight = GetLightStatus();
@@ -142,6 +146,8 @@ public class Secker : MonoBehaviour
             {
                 targetPosition = hit.position;
                 agent.SetDestination(targetPosition);
+                PathTime = Time.time;
+                NeedNewPosition = false;
                 //Debug.Log("Roaming to location " + targetPosition);
             }
 
@@ -149,7 +155,9 @@ public class Secker : MonoBehaviour
         {
 
             //if we are close to the current target position, then get a new roam position
-            if (agent.pathStatus == NavMeshPathStatus.PathInvalid || chasingPlayer || (targetPosition - transform.position).sqrMagnitude < 5.0f)
+            //also if our velocity is 0 find a new path as well, we are probably stuck
+            if (agent.velocity.magnitude < 0.1f && (Time.time - PathTime) > 1) NeedNewPosition = true;
+            if (NeedNewPosition || agent.pathStatus == NavMeshPathStatus.PathInvalid || chasingPlayer || (targetPosition - transform.position).sqrMagnitude < 5.0f)
             {
                 chasingPlayer = false;
                 //it is in light, so lets just roam around our region
@@ -161,6 +169,8 @@ public class Secker : MonoBehaviour
                 {
                     targetPosition = hit.position;
                     agent.SetDestination(targetPosition);
+                    PathTime = Time.time;
+                    NeedNewPosition = false;
                     //Debug.Log("Roaming to location " + targetPosition);
                 }
             }
@@ -168,13 +178,16 @@ public class Secker : MonoBehaviour
         {
             //chase the player
             agent.speed = 20;
-            
+            //also if our velocity is 0 find a new path as well, we are probably stuck
+            if (agent.velocity.magnitude < 0.1f && (Time.time - PathTime) > 1) NeedNewPosition = true;
             if (agent.pathStatus == NavMeshPathStatus.PathInvalid || !chasingPlayer || (targetPosition - player.transform.position).sqrMagnitude > 2.0f)
             {
                 if (NavMesh.SamplePosition(player.transform.position, out NavMeshHit hit, 25, NavMesh.AllAreas))
                 {
                     targetPosition = hit.position;
                     agent.SetDestination(targetPosition);
+                    PathTime = Time.time;
+                    NeedNewPosition = false;
                     //Debug.Log("chasing player at location " + targetPosition);
                 }    
             }
