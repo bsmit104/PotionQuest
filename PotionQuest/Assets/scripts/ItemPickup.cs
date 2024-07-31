@@ -34,15 +34,16 @@ public class ItemPickup : Interactable
         int added = playerInventory.AddItemToSlot(playerInventory.selectedSlot, item, 1, value);
         if (added == 0)
         {
+            //failed add item to specific slot
             added = playerInventory.AddItem(item, 1, value);
             if (added != 0)
             {
                 //add item worked
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().PlayPickupSound();
                 if (ConsumeItem)
                     Destroy(this.gameObject);
                 return;
             }
-            //failed to get item
         }else
         {
             //we added the item to the slot

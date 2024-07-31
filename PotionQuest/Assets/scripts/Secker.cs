@@ -129,9 +129,11 @@ public class Secker : MonoBehaviour
         inLight = GetLightStatus();
 
         agent.baseOffset = 2;
+        
+        //reset can kill 
+        canKill = true;
 
         //Secker AI and movement
-        //first, 
         agent.speed = MoveSpeed;
         if (inLight) // we see if we are in light first, and if we are we curl up
         {

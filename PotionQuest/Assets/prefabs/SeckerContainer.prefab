@@ -1179,6 +1179,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pathingTarget: {fileID: 6723907614041810687}
+  canKill: 1
+  roamDistance: 50
+  roamHeight: 50
   agent: {fileID: 141684834066463497}
   MoveSpeed: 0.2
   footstepSoundSource: {fileID: 3175864474120161355}
@@ -1281,7 +1284,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: e0e6c1930d2346543b4c04bdb083819e, type: 3}
   m_Resource: {fileID: 8300000, guid: e0e6c1930d2346543b4c04bdb083819e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.33
   m_Pitch: 1
   Loop: 0
   Mute: 0
