@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3963987081023336641}
   - component: {fileID: 7088070643906594138}
   - component: {fileID: 7531732071265404800}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: draggedItemPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
